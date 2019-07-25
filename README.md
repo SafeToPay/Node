@@ -1,5 +1,5 @@
 
-# Safe2Pay PHP SDK
+# Safe2Pay NodeJS SDK
 
 ![Safe2Pay](https://safe2pay.com.br/static/img/banner-github.png)
 
