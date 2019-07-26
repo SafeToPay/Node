@@ -55,12 +55,13 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 ### Criando uma venda com Boleto
 
 ```javascript
-//Inicializar método de pagamento
-    var payload = new TransactionObj.Transaction();
+
+    //Inicializar método de pagamento
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
-    payload.Application = "Teste SDK PHP";
+    payload.Application = "Teste SDK  NodeJS";
     //Nome do vendedor
     payload.Vendor = "João da Silva"
     //Url de callback
@@ -76,7 +77,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var bankslip = new BankslipObj.BankSlip();
+    var bankslip = new Bankslip();
     bankslip.DueDate = "22/07/2019";
     bankslip.CancelAfterDue = false;
     bankslip.IsEnablePartialPayment = false;
@@ -89,13 +90,13 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
         "Mensagem 3"
     ];
     //Lista de produtos incluídos na cobrança
-    payload.PaymentObject = bankslip;
-    payload.Products.push(new ProductObj.Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
+       //Lista de produtos incluídos na cobrança
+       payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
     //Dados do endereço do cliente
-    var address = new AddressObj.Address();
+    var address = new Address();
     address.ZipCode = "90670090";
     address.Street = "Logradouro";
     address.Complement = "Complemento";
@@ -106,19 +107,16 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new CustomerObj.Customer(
-        "João da silva",
-        "31037942000178",
-        "51999999999",
-        "safe2pay@safe2pay.com.br",
-        address);
+    var customer = new  Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "João da silva";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
     payload.Customer = customer;
 
-
-    payload = util.RemoveObjectKeys(payload);
-
-    BankSlip(payload);
+    PaymentRequest.BankSlip(payload);
 
 // ...
 ```
@@ -127,11 +125,11 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
 ```javascript
 //Inicializar método de pagamento
-    var payload = new TransactionObj.Transaction();
+    var payload = new  Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
-    payload.Application = "Teste SDK PHP";
+    payload.Application = "Teste SDK  NodeJS";
     //Nome do vendedor
     payload.Vendor = "João da Silva"
     //Url de callback
@@ -147,7 +145,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var creditCard = new CreditObj.CreditCard();
+    var creditCard = new  CreditCard();
     creditCard.Holder = "22/07/2019";
     creditCard.CardNumber = "4024007153763191";
     creditCard.ExpirationDate = "12/2019";
@@ -155,12 +153,12 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
     //Lista de produtos incluídos na cobrança
     payload.PaymentObject = creditCard;
-    payload.Products.push(new ProductObj.Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
     //Dados do endereço do cliente
-    var address = new AddressObj.Address();
+    var address = new Address();
     address.ZipCode = "90670090";
     address.Street = "Logradouro";
     address.Complement = "Complemento";
@@ -171,20 +169,17 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new CustomerObj.Customer(
-        "João da silva",
-        "31037942000178",
-        "51999999999",
-        "safe2pay@safe2pay.com.br",
-        address);
+    var customer = new  Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "João da silva";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
     payload.Customer = customer;
 
 
-    payload = util.RemoveObjectKeys(payload);
-
-    CreditCard(payload);
-
+    PaymentRequest.CreditCard(payload);
 // ...
 ```
 
@@ -192,11 +187,11 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
 ```javascript
  //Inicializar método de pagamento
-    var payload = new TransactionObj.Transaction();
+    var payload = new  Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
-    payload.Application = "Teste SDK PHP";
+    payload.Application = "Teste SDK  NodeJS";
     //Nome do vendedor
     payload.Vendor = "João da Silva"
     //Url de callback
@@ -210,36 +205,33 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     payload.PaymentMethod = "3";
 
     //Lista de produtos incluídos na cobrança
-    payload.Products.push(new ProductObj.Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
-    //Dados do endereço do cliente
-    var address = new AddressObj.Address();
-    address.ZipCode = "90670090";
-    address.Street = "Logradouro";
-    address.Complement = "Complemento";
-    address.Number = "123";
-    address.District = "Higienopolis";
-    address.StateInitials = "RS";
-    address.CityName = "Porto Alegre";
-    address.CountryName = "Brasil";
+   //Dados do endereço do cliente
+   var address = new Address();
+   address.ZipCode = "90670090";
+   address.Street = "Logradouro";
+   address.Complement = "Complemento";
+   address.Number = "123";
+   address.District = "Higienopolis";
+   address.StateInitials = "RS";
+   address.CityName = "Porto Alegre";
+   address.CountryName = "Brasil";
 
-    //Dados do cliente
-    var customer = new CustomerObj.Customer(
-        "João da silva",
-        "31037942000178",
-        "51999999999",
-        "safe2pay@safe2pay.com.br",
-        address);
+   //Dados do cliente
+   var customer = new  Customer();
+   customer.Name = "João da silva";
+   customer.Identity = "João da silva";
+   customer.Phone = "51999999999";
+   customer.Email = "safe2pay@safe2pay.com.br";
+   customer.Address = address;
 
-    payload.Customer = customer;
+   payload.Customer = customer;
 
 
-    payload = util.RemoveObjectKeys(payload);
-
-    CryptoCurrency(payload);
-
+    PaymentRequest.CryptoCurrency(payload);
 // ...
 ```
 
@@ -247,12 +239,13 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
 ```javascript
 
+    
     //Inicializar método de pagamento
-    var payload = new TransactionObj.Transaction();
+    var payload = new  Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
-    payload.Application = "Teste SDK PHP";
+    payload.Application = "Teste SDK  NodeJS";
     //Nome do vendedor
     payload.Vendor = "João da Silva"
     //Url de callback
@@ -268,7 +261,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var debitCard = new DebitObj.DebitCard();
+    var debitCard = new  DebitCard();
     debitCard.Holder = "22/07/2019";
     debitCard.CardNumber = "4024007153763191";
     debitCard.ExpirationDate = "12/2019";
@@ -277,12 +270,12 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     payload.PaymentObject = debitCard;
 
     //Lista de produtos incluídos na cobrança
-    payload.Products.push(new ProductObj.Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new ProductObj.Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
     //Dados do endereço do cliente
-    var address = new AddressObj.Address();
+    var address = new Address();
     address.ZipCode = "90670090";
     address.Street = "Logradouro";
     address.Complement = "Complemento";
@@ -293,76 +286,50 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new CustomerObj.Customer(
-        "João da silva",
-        "31037942000178",
-        "51999999999",
-        "safe2pay@safe2pay.com.br",
-        address);
+    var customer = new  Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "João da silva";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
     payload.Customer = customer;
 
-
-    payload = util.RemoveObjectKeys(payload);
-
-    DebitCard(payload);
+    PaymentRequest.DebitCard(payload);
 // ...
 ```
 
 ### Tokenizando um cartão
 
 ```javascript
+var TokenizationRequest = require('../Request/TokenizationRequest');
+var CreditCard = require('../Models/Payment/CreditCard');
 
-var card = require('../Models/Payment/CreditCard');
-
-// ...
-// ...
-//Cria uma instância do objeto do cartão
-//Nome, Número do cartão, Data de expiração e código de segurança 
-var creditCard = new card.CreditCard();
+var creditCard = new CreditCard();
 
 creditCard.Holder = "João da Silva";
 creditCard.CardNumber = "4024007153763191";
 creditCard.ExpirationDate = "12/2019";
 creditCard.SecurityCode = "241";
 
-creditCard = util.RemoveObjectKeys(creditCard);
-
-try {
-//Realiza a tokenização e traz o retorno 
-
-    var response = Create(creditCard);
-
-} catch (Exception e) {
-
-   // ...
-}
+TokenizationRequest.Create(creditCard);
 
 
-// ...
+
 ```
 
 ### Consultar transação
 
-```php
-<?php
-
-require('Request/TransactionRequest.php');
-use Safe2Pay\Api\TransactionRequest;
+```javascript
+var transactionFunctions = require('../Request/TransactionRequest');
 
 
-$IdTransaction = 82548;
+var Id = 82548;
+var response = transactionFunctions.Get(Id);
 
+console.log(response);
 
-try {
-
-    $response  =  TransactionRequest::Get($IdTransaction);
-
-} catch (Exception $e) {
-
-    echo  $e->getMessage();
-}
-// ...
+    
 ```
 
 ## Informações adicionais / Contato
