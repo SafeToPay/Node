@@ -1,0 +1,23 @@
+{
+  "name": "safe2pay-sdk",
+  "version": "1.0.0",
+  "description": "Biblioteca para integração com a plataforma de pagamentos Safe2Pay",
+  "main": "./dist/safe2pay.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SafeToPay/Node.git"
+  },
+  "keywords": [
+    "Payment",
+    "Pagamentos"
+  ],
+  "author": "Lucas Diogo da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SafeToPay/Node/issues"
+  },
+  "homepage": "https://github.com/SafeToPay/Node#readme"
+}
