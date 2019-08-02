@@ -28,10 +28,7 @@ A integração com a API do Safe2Pay se dá pelo modelo RESTful, de forma a real
 
 const safe2pay = require('../dist/safe2pay');
 
-A biblioteca contém os modelos para as requisições via api, necessitando pasar somente o modelo do objeto a ser enviado.
-
-//...
-
+A biblioteca contém os modelos para as requisições via api, necessitando passar somente o modelo do objeto a ser enviado.
 Após a importação da biblioteca para utilizar basta utilizar o comando  'safe2pay.api' e utilizar o módulo desejado.
 
 As APIs do inclusas na SDK são:
@@ -45,6 +42,74 @@ As APIs do inclusas na SDK são:
     TokenizationRequest
     TransactionRequest
 
+Para a importação dos objetos basta utilizar o comando 'safe2pay.model'
+
+Os modelos inclusos são:
+
+
+Modelos de transferência bancária:
+
+Transfer
+TransferRegister
+
+Modelos para uso de transação:
+
+Transaction
+TransactionStatus
+
+Modelos para uso de Adesão:
+
+Subscription
+
+
+Modelos utilizados para a venda-avulsa
+
+SingleSale
+SingleSalePayment
+SingleSalePaymentMethod
+SingleSaleProduct
+
+Modelos de pagamento:
+
+Bankslip
+CreditCard
+Bitcoin
+DebitCard
+DebbitAccount
+BankTransfer
+Carnet
+CarnetItems
+CarnetLot
+PaymentMethod
+
+Modelos genéricos:
+
+Customer
+Address
+Product
+
+Modelos para dados bancários
+
+Bank,
+BankData
+
+Modelos para uso do Marketplace
+
+Merchant
+MerchantPaymentDate
+MerchantPaymentMethod
+MerchantSplit
+MerchantSplitTax
+MerchantType
+TaxType
+ListTax
+
+Modelos para criação de planos:
+
+Plan
+PlanFrequence
+
+   
 
 ### Tratamento das respostas da API
 
