@@ -22,7 +22,7 @@
 ## Instalação
 
 ```
-npm i safe2pay-sdk
+npm i safe2pay
 ```
 
 ## Utilização
