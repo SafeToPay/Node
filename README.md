@@ -47,6 +47,7 @@ Para a importação dos objetos basta utilizar o comando 'safe2pay.model'
 Os modelos inclusos são:
 
 
+```
 Transfer
 TransferRegister
 Transaction
@@ -81,7 +82,7 @@ TaxType
 ListTax
 Plan
 PlanFrequence
-
+```
    
 
 ### Tratamento das respostas da API
