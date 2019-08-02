@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\test\\TokenizationTest.js"
+            "program": "${workspaceFolder}\\test\\TransactionTest.js"
         }
     ]
 }

@@ -1,23 +1,33 @@
 {
-  "name": "safe2pay-sdk",
-  "version": "1.0.0",
+  "name": "safe2pay",
   "description": "Biblioteca para integração com a plataforma de pagamentos Safe2Pay",
-  "main": "./dist/safe2pay.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "readmeFilename": "README.md" ,
+  "keywords": [
+    "payment",
+    "pagamento",
+    "boleto",
+    "credito",
+    "debito",
+    "recorrencia",
+    "facil",
+    "segurança"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "Lucas Diogo da Silva",
+    "email": "integracao@safe2pay.com.br",
+    "homepage": "https://safe2pay.com.br/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SafeToPay/Node.git"
+    "url": "git+https://github.com/SafeToPay/Node"
   },
-  "keywords": [
-    "Payment",
-    "Pagamentos"
-  ],
-  "author": "Lucas Diogo da Silva",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/SafeToPay/Node/issues"
+  "dependencies":{
+    "request":"2.88.0"
   },
-  "homepage": "https://github.com/SafeToPay/Node#readme"
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "main": "./dist/safe2pay.js"
 }

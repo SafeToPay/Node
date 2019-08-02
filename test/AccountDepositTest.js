@@ -1,4 +1,5 @@
 const safe2pay = require('../dist/safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const AccountDepositRequest = safe2pay.api.AccountDepositRequest;
 

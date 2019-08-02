@@ -1,4 +1,5 @@
 const safe2pay = require('../dist/safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const MarketplaceRequest = safe2pay.api.MarketplaceRequest;
 var BankData = safe2pay.model.bank.BankData;

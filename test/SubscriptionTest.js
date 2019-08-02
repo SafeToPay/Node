@@ -1,5 +1,6 @@
 // import da library do safe2pay
 const safe2pay = require('../dist/safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const SubscriptionRequest = safe2pay.api.SubscriptionRequest;
 var Address = safe2pay.model.general.Address;

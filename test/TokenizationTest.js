@@ -1,4 +1,5 @@
 const safe2pay = require('../dist/safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const TokenizationRequest = safe2pay.api.TokenizationRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
@@ -26,4 +27,4 @@ function Test() {
 }
 
 
-// Test();
+//Test();

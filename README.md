@@ -19,6 +19,11 @@
 * [x] Gerenciamento de subcontas para Marketplace.
 * [x] Recorrência
 
+## Instalação
+
+```
+npm i safe2pay-sdk
+```
 
 ## Utilização
 
@@ -26,7 +31,9 @@ A integração com a API do Safe2Pay se dá pelo modelo RESTful, de forma a real
 
 #### Exemplo
 
-const safe2pay = require('../dist/safe2pay');
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+
 
 A biblioteca contém os modelos para as requisições via api, necessitando passar somente o modelo do objeto a ser enviado.
 Após a importação da biblioteca para utilizar basta utilizar o comando  'safe2pay.api' e utilizar o módulo desejado.
@@ -70,7 +77,7 @@ PaymentMethod
 Customer
 Address
 Product
-Bank,
+Bank
 BankData
 Merchant
 MerchantPaymentDate
@@ -118,7 +125,8 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 ### Consultar transação
 
 ```javascript
-const safe2pay = require('../dist/safe2pay');
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 var TransactionRequest = safe2pay.api.TransactionRequest;
 
@@ -140,7 +148,8 @@ TransactionRequest.Get(Id)
 
 ```javascript
 
-const safe2pay = require('../dist/safe2pay');
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const TokenizationRequest = safe2pay.api.TokenizationRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
@@ -169,7 +178,17 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma venda com Boleto
 
 ```javascript
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
 
+var BankSlip = safe2pay.model.payment.Bankslip;
+
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
   
     //Inicializar método de pagamento
     var payload = new Transaction();
@@ -251,6 +270,19 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma venda com cartão de crédito
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+//modelos
+var CreditCard = safe2pay.model.payment.CreditCard;
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
+
+
   //Inicializar método de pagamento
     var payload = new Transaction();
     //Ambiente de homologação
@@ -322,6 +354,18 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma venda com Bitcoin
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
+
+
    //Inicializar método de pagamento
     var payload = new Transaction();
     //Ambiente de homologação
@@ -383,6 +427,18 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma venda com cartão de débito
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+
+var DebitCard = safe2pay.model.payment.DebitCard;
+
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
 
     //Inicializar método de pagamento
     var payload = new Transaction();
@@ -456,6 +512,17 @@ TokenizationRequest.Create(creditCard)
 
 ```javascript
 
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+
+var DebitCard = safe2pay.model.payment.DebitCard;
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
+
     //Inicializar método de pagamento
     var payload = new Transaction();
     //Ambiente de homologação
@@ -518,6 +585,12 @@ TokenizationRequest.Create(creditCard)
 ### Estornando uma transação feita com cartão de crédito
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const TokenizationRequest = safe2pay.api.TokenizationRequest;
+var CreditCard = safe2pay.model.payment.CreditCard;
+
  var Id = 851356;
 
     PaymentRequest.Refund(Id)
@@ -537,6 +610,17 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma venda com carnê
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+var Carnet = safe2pay.model.payment.Carnet;
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
 
     //Inicializar método de pagamento
     var payload = new Transaction();
@@ -642,6 +726,17 @@ TokenizationRequest.Create(creditCard)
 ### Criando uma subconta
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+
+const MarketplaceRequest = safe2pay.api.MarketplaceRequest;
+var BankData = safe2pay.model.bank.BankData;
+var Bank = safe2pay.model.bank.Bank;
+var Address = safe2pay.model.general.Address;
+var Merchant = safe2pay.model.merchant.Merchant;
+var MerchantSplit = safe2pay.model.merchant.MerchantSplit;
+var MerchantSplitTax = safe2pay.model.merchant.MerchantSplitTax;
   
     var merchant = new Merchant();
     //dados da empresa
@@ -725,6 +820,9 @@ TokenizationRequest.Create(creditCard)
 ### Listando subcontas
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
   
    var PageNumber = 1;
     var RowsPage = 10;
@@ -745,6 +843,13 @@ TokenizationRequest.Create(creditCard)
 ### Criando um plano
 
 ```javascript
+
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+
+const PlanRequest = safe2pay.api.PlanRequest;
+var Plan = safe2pay.model.merchant.Plan;
+var PlanFrequence = safe2pay.model.merchant.PlanFrequence;
   
     //UPDATE
     var plan = new Plan();
@@ -793,6 +898,14 @@ TokenizationRequest.Create(creditCard)
 
 ```javascript
   
+const safe2pay = require('safe2pay');
+const enviroment = safe2pay.enviroment.setApiKey('x-api-key'); 
+
+const SubscriptionRequest = safe2pay.api.SubscriptionRequest;
+var Address = safe2pay.model.general.Address;
+var Customer = safe2pay.model.general.Customer;
+var Subscription = safe2pay.model.subscription.Subscription;
+
   
     var subscription = new Subscription();
     subscription.Plan = 68;
