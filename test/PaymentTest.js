@@ -1,16 +1,32 @@
+const safe2pay = require('../dist/safe2pay');
+//api
+const PaymentRequest = safe2pay.api.PaymentRequest;
+//modelos
+var CreditCard = safe2pay.model.payment.CreditCard;
+var DebitCard = safe2pay.model.payment.DebitCard;
+var BankSlip = safe2pay.model.payment.Bankslip;
+var BankData = safe2pay.model.bank.BankData;
 
-var CreditCard = require('../Models/Payment/CreditCard');
-var DebitCard = require('../Models/Payment/DebitCard');
-var Bankslip = require('../Models/Payment/Bankslip');
-var BankData = require('../Models/Bank/BankData');
-var Carnet = require('../Models/Payment/Carnet');
-var CarnetLot = require('../Models/Payment/CarnetLot');
-var Transaction = require('../Models/Transaction/Transaction');
-var Customer = require('../Models/General/Customer');
-var Product = require('../Models/General/Product');
-var Address = require('../Models/General/Address');
+var Carnet = safe2pay.model.payment.Carnet;
+var CarnetLot = safe2pay.model.payment.CarnetLot;
+var Transaction = safe2pay.model.transaction.Transaction;
+var Customer = safe2pay.model.general.Customer;
+var Product = safe2pay.model.general.Product
+var Address = safe2pay.model.general.Address;
 
-var PaymentRequest = require('../Request/PaymentRequest');
+function GetPaymentMethods() {
+
+    PaymentRequest.GetPaymentMethods()
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
+}
 
 function BankslipTest() {
 
@@ -35,8 +51,8 @@ function BankslipTest() {
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var bankslip = new Bankslip();
-    bankslip.DueDate = "22/07/2019";
+    var bankslip = new BankSlip();
+    bankslip.DueDate = "22/08/2019";
     bankslip.CancelAfterDue = false;
     bankslip.IsEnablePartialPayment = false;
     bankslip.PenaltyRate = 2.00;
@@ -47,11 +63,14 @@ function BankslipTest() {
         "Mensagem 2",
         "Mensagem 3"
     ];
+    
+    
+    payload.PaymentObject = bankslip;
+
     //Lista de produtos incluídos na cobrança
-       //Lista de produtos incluídos na cobrança
-       payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
-       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
     //Dados do endereço do cliente
     var address = new Address();
@@ -65,22 +84,31 @@ function BankslipTest() {
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
 
     payload.Customer = customer;
 
-    PaymentRequest.BankSlip(payload);
+    PaymentRequest.BankSlip(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function CreditCardTest() {
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -100,7 +128,7 @@ function CreditCardTest() {
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var creditCard = new  CreditCard();
+    var creditCard = new CreditCard();
     creditCard.Holder = "22/07/2019";
     creditCard.CardNumber = "4024007153763191";
     creditCard.ExpirationDate = "12/2019";
@@ -124,9 +152,9 @@ function CreditCardTest() {
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
@@ -134,13 +162,22 @@ function CreditCardTest() {
     payload.Customer = customer;
 
 
-    PaymentRequest.CreditCard(payload);
+    PaymentRequest.CreditCard(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function CryptoCurrencyTest() {
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -162,35 +199,44 @@ function CryptoCurrencyTest() {
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
-   //Dados do endereço do cliente
-   var address = new Address();
-   address.ZipCode = "90670090";
-   address.Street = "Logradouro";
-   address.Complement = "Complemento";
-   address.Number = "123";
-   address.District = "Higienopolis";
-   address.StateInitials = "RS";
-   address.CityName = "Porto Alegre";
-   address.CountryName = "Brasil";
+    //Dados do endereço do cliente
+    var address = new Address();
+    address.ZipCode = "90670090";
+    address.Street = "Logradouro";
+    address.Complement = "Complemento";
+    address.Number = "123";
+    address.District = "Higienopolis";
+    address.StateInitials = "RS";
+    address.CityName = "Porto Alegre";
+    address.CountryName = "Brasil";
 
-   //Dados do cliente
-   var customer = new  Customer();
-   customer.Name = "João da silva";
-   customer.Identity = "João da silva";
-   customer.Phone = "51999999999";
-   customer.Email = "safe2pay@safe2pay.com.br";
-   customer.Address = address;
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "18978393080";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
-   payload.Customer = customer;
+    payload.Customer = customer;
 
 
-    PaymentRequest.CryptoCurrency(payload);
+    PaymentRequest.CryptoCurrency(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function DebitCardTest() {
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -210,7 +256,7 @@ function DebitCardTest() {
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var debitCard = new  DebitCard();
+    var debitCard = new DebitCard();
     debitCard.Holder = "22/07/2019";
     debitCard.CardNumber = "4024007153763191";
     debitCard.ExpirationDate = "12/2019";
@@ -235,22 +281,31 @@ function DebitCardTest() {
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
 
     payload.Customer = customer;
 
-    PaymentRequest.DebitCard(payload);
+    PaymentRequest.DebitCard(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function DebitAccountTest() {
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -270,7 +325,7 @@ function DebitAccountTest() {
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var bankData = new  BankData();
+    var bankData = new BankData();
     bankData.Bank = "033";
     bankData.BankAgency = "0435";
     bankData.BankAgencyDigit = "1";
@@ -288,24 +343,43 @@ function DebitAccountTest() {
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
 
-  //Dados do cliente
-  var customer = new  Customer();
-  customer.Name = "João da silva";
-  customer.Identity = "55959596595952";
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "18978393080";
 
 
-    PaymentRequest.DebitAccount(payload);
+    PaymentRequest.DebitAccount(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function RefundTest() {
-    var Id = 516396;
-    Refund(Id);
+    var Id = 851356;
+
+    PaymentRequest.Refund(Id)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function CarneTest() {
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -324,14 +398,14 @@ function CarneTest() {
 
     //Informa o objeto de pagamento
 
-   //Objeto de pagamento - para boleto bancário
-   var carnet = new  Carnet();
+    //Objeto de pagamento - para boleto bancário
+    var carnet = new Carnet();
     carnet.Message = "Teste";
     carnet.PenaltyAmount = 10;
     carnet.InterestAmount = 10;
 
-    bankslip = new  BankSlip();
-    bankslip.DueDate = new Date(2019,9,22);
+    bankslip = new BankSlip();
+    bankslip.DueDate = new Date(2019, 9, 22);
     bankslip.Amount = 1.99;
     bankslip.Message = [
         "Mensagem 1",
@@ -339,8 +413,8 @@ function CarneTest() {
         "Mensagem 3"
     ];
 
-    bankslip2 = new  BankSlip();
-    bankslip2.DueDate =  new Date(2019,10,22);
+    bankslip2 = new BankSlip();
+    bankslip2.DueDate = new Date(2019, 10, 22);
     bankslip2.Amount = 1.99;
     bankslip2.Message = [
         "Mensagem 1",
@@ -348,8 +422,8 @@ function CarneTest() {
         "Mensagem 3"
     ];
 
-    bankslip3 = new  BankSlip();
-    bankslip3.DueDate =  new Date(2019,11,22);
+    bankslip3 = new BankSlip();
+    bankslip3.DueDate = new Date(2019, 11, 22);
     bankslip3.Amount = 1.99;
     bankslip3.Message = [
         "Mensagem 1",
@@ -381,27 +455,36 @@ function CarneTest() {
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "01783000217";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
 
     payload.Customer = customer;
 
-    PaymentRequest.Carnet(payload);
+    PaymentRequest.Carnet(payload)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
-function CarnetLotTest(){
+function CarnetLotTest() {
 
 
 
-    var lote = new   CarnetLot();
+    var lote = new CarnetLot();
     lote.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
 
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -419,14 +502,14 @@ function CarnetLotTest(){
 
     //Informa o objeto de pagamento
 
-   //Objeto de pagamento - para boleto bancário
-   var carnet = new  Carnet();
+    //Objeto de pagamento - para boleto bancário
+    var carnet = new Carnet();
     carnet.Message = "Teste";
     carnet.PenaltyAmount = 10;
     carnet.InterestAmount = 10;
 
-    bankslip = new  BankSlip();
-    bankslip.DueDate = new Date(2019,9,22);
+    bankslip = new BankSlip();
+    bankslip.DueDate = new Date(2019, 9, 22);
     bankslip.Amount = 1.99;
     bankslip.Message = [
         "Mensagem 1",
@@ -434,8 +517,8 @@ function CarnetLotTest(){
         "Mensagem 3"
     ];
 
-    bankslip2 = new  BankSlip();
-    bankslip2.DueDate =  new Date(2019,10,22);
+    bankslip2 = new BankSlip();
+    bankslip2.DueDate = new Date(2019, 10, 22);
     bankslip2.Amount = 1.99;
     bankslip2.Message = [
         "Mensagem 1",
@@ -443,8 +526,8 @@ function CarnetLotTest(){
         "Mensagem 3"
     ];
 
-    bankslip3 = new  BankSlip();
-    bankslip3.DueDate =  new Date(2019,11,22);
+    bankslip3 = new BankSlip();
+    bankslip3.DueDate = new Date(2019, 11, 22);
     bankslip3.Amount = 1.99;
     bankslip3.Message = [
         "Mensagem 1",
@@ -464,7 +547,7 @@ function CarnetLotTest(){
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
-  
+
     //Dados do endereço do cliente
     var address = new Address();
     address.ZipCode = "90670090";
@@ -477,9 +560,9 @@ function CarnetLotTest(){
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "01783000217";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
@@ -489,9 +572,9 @@ function CarnetLotTest(){
 
     lote.Items.push(payload);
 
-    
+
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -509,14 +592,14 @@ function CarnetLotTest(){
 
     //Informa o objeto de pagamento
 
-   //Objeto de pagamento - para boleto bancário
-   var carnet = new  Carnet();
+    //Objeto de pagamento - para boleto bancário
+    var carnet = new Carnet();
     carnet.Message = "Teste";
     carnet.PenaltyAmount = 10;
     carnet.InterestAmount = 10;
 
-    bankslip = new  BankSlip();
-    bankslip.DueDate = new Date(2019,9,22);
+    bankslip = new BankSlip();
+    bankslip.DueDate = new Date(2019, 9, 22);
     bankslip.Amount = 1.99;
     bankslip.Message = [
         "Mensagem 1",
@@ -524,8 +607,8 @@ function CarnetLotTest(){
         "Mensagem 3"
     ];
 
-    bankslip2 = new  BankSlip();
-    bankslip2.DueDate =  new Date(2019,10,22);
+    bankslip2 = new BankSlip();
+    bankslip2.DueDate = new Date(2019, 10, 22);
     bankslip2.Amount = 1.99;
     bankslip2.Message = [
         "Mensagem 1",
@@ -533,8 +616,8 @@ function CarnetLotTest(){
         "Mensagem 3"
     ];
 
-    bankslip3 = new  BankSlip();
-    bankslip3.DueDate =  new Date(2019,11,22);
+    bankslip3 = new BankSlip();
+    bankslip3.DueDate = new Date(2019, 11, 22);
     bankslip3.Amount = 1.99;
     bankslip3.Message = [
         "Mensagem 1",
@@ -554,43 +637,49 @@ function CarnetLotTest(){
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
-   //Dados do endereço do cliente
-   var address = new Address();
-   address.ZipCode = "90670090";
-   address.Street = "Logradouro";
-   address.Complement = "Complemento";
-   address.Number = "123";
-   address.District = "Higienopolis";
-   address.StateInitials = "RS";
-   address.CityName = "Porto Alegre";
-   address.CountryName = "Brasil";
+    //Dados do endereço do cliente
+    var address = new Address();
+    address.ZipCode = "90670090";
+    address.Street = "Logradouro";
+    address.Complement = "Complemento";
+    address.Number = "123";
+    address.District = "Higienopolis";
+    address.StateInitials = "RS";
+    address.CityName = "Porto Alegre";
+    address.CountryName = "Brasil";
 
-   //Dados do cliente
-   var customer = new  Customer();
-   customer.Name = "João da silva";
-   customer.Identity = "01783000217";
-   customer.Phone = "51999999999";
-   customer.Email = "safe2pay@safe2pay.com.br";
-   customer.Address = address;
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "01783000217";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
-   payload.Customer = customer;
+    payload.Customer = customer;
 
 
     lote.Items.push(payload);
 
 
-    PaymentRequest.CarnetLot(payload);
+    PaymentRequest.CarnetLot(payload)
+        .then(function (result) {
 
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
-
-
-//GetPaymentMethods();
-//BankslipTest();
-//CreditCardTest();
-//CryptoCurrencyTest();
-//DebitCardTest();
-//DebitAccountTest();
-//RefundTest();
-//CarneTest();
-//CarnetLotTest();
+// BankslipTest();
+// CreditCardTest();
+// CryptoCurrencyTest();
+// DebitCardTest();
+// DebitAccountTest();
+// RefundTest();
+// CarneTest();
+// GetPaymentMethods();
+// CarnetLotTest();

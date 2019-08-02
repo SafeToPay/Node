@@ -13,14 +13,37 @@
     * [x] Cartão de crédito.
     * [x] Bitcoin.
     * [x] Cartão de débito.
+    * [x] Débito em conta.
     * [x] Carnê.
+    * [x] Lote de Carnês.
 * [x] Gerenciamento de subcontas para Marketplace.
-* [x] Venda simples.
-* [x] Recorrência.
+* [x] Recorrência
+
 
 ## Utilização
 
 A integração com a API do Safe2Pay se dá pelo modelo RESTful, de forma a realizar a transferência segura e simplificada dos dados pelo formato JSON. Para facilitar o envio dos dados, deve-se montar um objeto para envio baseado nos modelos disponíveis, com exemplos abaixo, e a própria chamada do método desejado realizará o tratamento e conversão deste objeto para JSON. 
+
+#### Exemplo
+
+const safe2pay = require('../dist/safe2pay');
+
+A biblioteca contém os modelos para as requisições via api, necessitando pasar somente o modelo do objeto a ser enviado.
+
+//...
+
+Após a importação da biblioteca para utilizar basta utilizar o comando  'safe2pay.api' e utilizar o módulo desejado.
+
+As APIs do inclusas na SDK são:
+
+    AccountDepositRequest
+    DebitAccountRequest
+    MarketplaceRequest
+    PaymentRequest
+    PlanRequest
+    SubscriptionRequest
+    TokenizationRequest
+    TransactionRequest
 
 
 ### Tratamento das respostas da API
@@ -52,10 +75,63 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 12 = EM CANCELAMENTO
 ```
 
+
+### Consultar transação
+
+```javascript
+const safe2pay = require('../dist/safe2pay');
+
+var TransactionRequest = safe2pay.api.TransactionRequest;
+
+var Id = 848906;
+
+TransactionRequest.Get(Id)
+        .then(function (result) {
+
+           //...
+
+        }).catch(function(error) {    
+
+            //...
+
+          });
+```
+
+### Tokenizando um cartão
+
+```javascript
+
+const safe2pay = require('../dist/safe2pay');
+
+const TokenizationRequest = safe2pay.api.TokenizationRequest;
+var CreditCard = safe2pay.model.payment.CreditCard;
+
+
+var creditCard = new CreditCard();
+creditCard.Holder = "João da Silva";
+creditCard.CardNumber = "4024007153763191";
+creditCard.ExpirationDate = "12/2019";
+creditCard.SecurityCode = "241";
+
+
+TokenizationRequest.Create(creditCard)
+        .then(function (result) {
+
+         //...
+
+        }, function (err) {
+
+        //...
+
+        });      
+```
+
+
 ### Criando uma venda com Boleto
 
 ```javascript
 
+  
     //Inicializar método de pagamento
     var payload = new Transaction();
     //Ambiente de homologação
@@ -77,8 +153,8 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var bankslip = new Bankslip();
-    bankslip.DueDate = "22/07/2019";
+    var bankslip = new BankSlip();
+    bankslip.DueDate = "22/08/2019";
     bankslip.CancelAfterDue = false;
     bankslip.IsEnablePartialPayment = false;
     bankslip.PenaltyRate = 2.00;
@@ -89,11 +165,14 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
         "Mensagem 2",
         "Mensagem 3"
     ];
+    
+    
+    payload.PaymentObject = bankslip;
+
     //Lista de produtos incluídos na cobrança
-       //Lista de produtos incluídos na cobrança
-       payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
-       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-       payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
     //Dados do endereço do cliente
     var address = new Address();
@@ -107,16 +186,25 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
 
     payload.Customer = customer;
 
-    PaymentRequest.BankSlip(payload);
+    PaymentRequest.BankSlip(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
 
 // ...
 ```
@@ -124,8 +212,8 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 ### Criando uma venda com cartão de crédito
 
 ```javascript
-//Inicializar método de pagamento
-    var payload = new  Transaction();
+  //Inicializar método de pagamento
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -145,7 +233,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var creditCard = new  CreditCard();
+    var creditCard = new CreditCard();
     creditCard.Holder = "22/07/2019";
     creditCard.CardNumber = "4024007153763191";
     creditCard.ExpirationDate = "12/2019";
@@ -169,9 +257,9 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
@@ -179,15 +267,24 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     payload.Customer = customer;
 
 
-    PaymentRequest.CreditCard(payload);
+    PaymentRequest.CreditCard(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
 // ...
 ```
 
 ### Criando uma venda com Bitcoin
 
 ```javascript
- //Inicializar método de pagamento
-    var payload = new  Transaction();
+   //Inicializar método de pagamento
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -209,29 +306,38 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
     payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
-   //Dados do endereço do cliente
-   var address = new Address();
-   address.ZipCode = "90670090";
-   address.Street = "Logradouro";
-   address.Complement = "Complemento";
-   address.Number = "123";
-   address.District = "Higienopolis";
-   address.StateInitials = "RS";
-   address.CityName = "Porto Alegre";
-   address.CountryName = "Brasil";
+    //Dados do endereço do cliente
+    var address = new Address();
+    address.ZipCode = "90670090";
+    address.Street = "Logradouro";
+    address.Complement = "Complemento";
+    address.Number = "123";
+    address.District = "Higienopolis";
+    address.StateInitials = "RS";
+    address.CityName = "Porto Alegre";
+    address.CountryName = "Brasil";
 
-   //Dados do cliente
-   var customer = new  Customer();
-   customer.Name = "João da silva";
-   customer.Identity = "João da silva";
-   customer.Phone = "51999999999";
-   customer.Email = "safe2pay@safe2pay.com.br";
-   customer.Address = address;
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "18978393080";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
 
-   payload.Customer = customer;
+    payload.Customer = customer;
 
 
-    PaymentRequest.CryptoCurrency(payload);
+    PaymentRequest.CryptoCurrency(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
 // ...
 ```
 
@@ -239,9 +345,8 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
 ```javascript
 
-    
     //Inicializar método de pagamento
-    var payload = new  Transaction();
+    var payload = new Transaction();
     //Ambiente de homologação
     payload.IsSandbox = true;
     //Descrição geral 
@@ -261,7 +366,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     //Informa o objeto de pagamento
 
     //Objeto de pagamento - para boleto bancário
-    var debitCard = new  DebitCard();
+    var debitCard = new DebitCard();
     debitCard.Holder = "22/07/2019";
     debitCard.CardNumber = "4024007153763191";
     debitCard.ExpirationDate = "12/2019";
@@ -286,51 +391,419 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
     address.CountryName = "Brasil";
 
     //Dados do cliente
-    var customer = new  Customer();
+    var customer = new Customer();
     customer.Name = "João da silva";
-    customer.Identity = "João da silva";
+    customer.Identity = "18978393080";
     customer.Phone = "51999999999";
     customer.Email = "safe2pay@safe2pay.com.br";
     customer.Address = address;
 
     payload.Customer = customer;
 
-    PaymentRequest.DebitCard(payload);
+    PaymentRequest.DebitCard(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
 // ...
 ```
 
-### Tokenizando um cartão
+### Criando uma venda com débito em conta
 
 ```javascript
-var TokenizationRequest = require('../Request/TokenizationRequest');
-var CreditCard = require('../Models/Payment/CreditCard');
 
-var creditCard = new CreditCard();
+    //Inicializar método de pagamento
+    var payload = new Transaction();
+    //Ambiente de homologação
+    payload.IsSandbox = true;
+    //Descrição geral 
+    payload.Application = "Teste SDK  NodeJS";
+    //Nome do vendedor
+    payload.Vendor = "João da Silva"
+    //Url de callback
+    payload.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
+    //Código da forma de pagamento
+    // 1 - Boleto bancário
+    // 2 - Cartão de crédito
+    // 3 - Criptomoeda
+    // 4 - Cartão de débito 
+    // 10 - Débito em conta 
+    payload.PaymentMethod = "10";
 
-creditCard.Holder = "João da Silva";
-creditCard.CardNumber = "4024007153763191";
-creditCard.ExpirationDate = "12/2019";
-creditCard.SecurityCode = "241";
+    //Informa o objeto de pagamento
 
-TokenizationRequest.Create(creditCard);
+    //Objeto de pagamento - para boleto bancário
+    var bankData = new BankData();
+    bankData.Bank = "033";
+    bankData.BankAgency = "0435";
+    bankData.BankAgencyDigit = "1";
+    bankData.BankAccount = "7879487";
+    bankData.BankAccountDigit = "2";
+
+    payload.PaymentObject = {
+        BankData: bankData,
+        DueDate: "2019-05-30"
+    };
+
+    //Lista de produtos incluídos na cobrança
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
 
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "18978393080";
 
+
+    PaymentRequest.DebitAccount(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
+// ...
 ```
 
-### Consultar transação
+
+### Estornando uma transação feita com cartão de crédito
 
 ```javascript
-var transactionFunctions = require('../Request/TransactionRequest');
+ var Id = 851356;
+
+    PaymentRequest.Refund(Id)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+             //...
+
+        });
+// ...
+```
 
 
-var Id = 82548;
-var response = transactionFunctions.Get(Id);
+### Criando uma venda com carnê
 
-console.log(response);
+```javascript
+
+    //Inicializar método de pagamento
+    var payload = new Transaction();
+    //Ambiente de homologação
+    payload.IsSandbox = true;
+    //Descrição geral 
+    payload.Application = "Teste SDK  NodeJS";
+    //Nome do vendedor
+    payload.Vendor = "João da Silva"
+    //Url de callback
+    payload.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
+    //Código da forma de pagamento
+    // 1 - Boleto bancário
+    // 2 - Cartão de crédito
+    // 3 - Criptomoeda
+    // 4 - Cartão de débito 
+    // 10 - Débito em conta 
+    payload.PaymentMethod = "1";
+
+    //Informa o objeto de pagamento
+
+    //Objeto de pagamento - para boleto bancário
+    var carnet = new Carnet();
+    carnet.Message = "Teste";
+    carnet.PenaltyAmount = 10;
+    carnet.InterestAmount = 10;
+
+    bankslip = new BankSlip();
+    bankslip.DueDate = new Date(2019, 9, 22);
+    bankslip.Amount = 1.99;
+    bankslip.Message = [
+        "Mensagem 1",
+        "Mensagem 2",
+        "Mensagem 3"
+    ];
+
+    bankslip2 = new BankSlip();
+    bankslip2.DueDate = new Date(2019, 10, 22);
+    bankslip2.Amount = 1.99;
+    bankslip2.Message = [
+        "Mensagem 1",
+        "Mensagem 2",
+        "Mensagem 3"
+    ];
+
+    bankslip3 = new BankSlip();
+    bankslip3.DueDate = new Date(2019, 11, 22);
+    bankslip3.Amount = 1.99;
+    bankslip3.Message = [
+        "Mensagem 1",
+        "Mensagem 2",
+        "Mensagem 3"
+    ];
+
+
+    carnet.BankSlips.push(bankslip);
+    carnet.BankSlips.push(bankslip2);
+    carnet.BankSlips.push(bankslip3);
+
+    payload.PaymentObject = carnet;
+
+    //Lista de produtos incluídos na cobrança
+    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+
+    //Dados do endereço do cliente
+    var address = new Address();
+    address.ZipCode = "90670090";
+    address.Street = "Logradouro";
+    address.Complement = "Complemento";
+    address.Number = "123";
+    address.District = "Higienopolis";
+    address.StateInitials = "RS";
+    address.CityName = "Porto Alegre";
+    address.CountryName = "Brasil";
+
+    //Dados do cliente
+    var customer = new Customer();
+    customer.Name = "João da silva";
+    customer.Identity = "18978393080";
+    customer.Phone = "51999999999";
+    customer.Email = "safe2pay@safe2pay.com.br";
+    customer.Address = address;
+
+    payload.Customer = customer;
+
+    PaymentRequest.Carnet(payload)
+        .then(function (result) {
+
+             //...
+
+        }, function (err) {
+
+            //...
+
+        });
+// ...
+```
+
+
+
+### Criando uma subconta
+
+```javascript
+  
+    var merchant = new Merchant();
+    //dados da empresa
+    merchant.Identity = "53797700000115";
+    merchant.Name = "Francisco e Laís Filmagens ME";
+    merchant.CommercialName = "Teste";
+    merchant.Email = "2e8901a278@hellomail.fun";
+    merchant.ResponsibleName = "Responsável";
+    merchant.ResponsibleIdentity = "04270435062";
+    //responsável técnico
+    merchant.TechEmail = "aaee255acb@hellomail.fun";
+    merchant.TechName = "Responsável técnico";
+    merchant.TechIdentity = "32001774117";
+    //dados de endereço
+    merchant.Address = new Address();
+    merchant.Address.ZipCode = "90670090";
+    merchant.Address.Street = "Logradouro";
+    merchant.Address.Complement = "Complemento";
+    merchant.Address.Number = "123";
+    merchant.Address.District = "Higienopolis";
+    merchant.Address.StateInitials = "RS";
+    merchant.Address.CityName = "Porto Alegre";
+    merchant.Address.CountryName = "Brasil";
+    //dados bancários
+    merchant.BankData = new BankData();
+    merchant.BankData.Bank = new Bank("041");
+    merchant.BankData.BankAgency = "1676";
+    merchant.BankData.BankAgencyDigit = "0";
+    merchant.BankData.BankAccount = "41776";
+    merchant.BankData.BankAccountDigit = "7";
+    merchant.BankData.Operation = "3";
 
     
+    var splitBoleto =  new MerchantSplit();
+    splitBoleto.IsSubaccountTaxPayer = false;
+    splitBoleto.PaymentMethodCode = "1";
+    splitBoleto.Taxes.push(
+        new MerchantSplitTax("1", "1.00"),
+    );
+
+    var splitCredito =  new MerchantSplit();
+    splitCredito.IsSubaccountTaxPayer = false;
+    splitCredito.PaymentMethodCode = "2";
+    splitCredito.Taxes.push(
+        new MerchantSplitTax("1", "1.00"),
+    );
+
+    var splitBitcoin =  new MerchantSplit();
+    splitCredito.IsSubaccountTaxPayer = false;
+    splitCredito.PaymentMethodCode = "3";
+    splitCredito.Taxes.push(
+        new MerchantSplitTax("1", "1.00"),
+    );
+
+    var splitDebito =  new MerchantSplit();
+    splitDebito.IsSubaccountTaxPayer = false;
+    splitDebito.PaymentMethodCode = "4";
+    splitDebito.Taxes.push(
+        new MerchantSplitTax("1", "1.00"),
+    );
+
+    //splits
+    merchant.MerchantSplit.push(splitBoleto,splitCredito,splitDebito);
+
+
+    MarketplaceRequest.Add(merchant)
+        .then(function (result) {
+
+            //...
+
+        }, function (err) {
+
+            //...
+
+        });
+// ...
 ```
+
+
+
+### Listando subcontas
+
+```javascript
+  
+   var PageNumber = 1;
+    var RowsPage = 10;
+
+    MarketplaceRequest.List(PageNumber, RowsPage)
+        .then(function (result) {
+
+            //...
+
+        }, function (err) {
+
+            //...
+
+        });
+// ...
+```
+
+### Criando um plano
+
+```javascript
+  
+    //UPDATE
+    var plan = new Plan();
+    //Frequencia do plano
+    //Code Name
+    // 1	Mensal
+    // 2	Bimestral
+    // 3	Trimestral
+    // 4	Semestral
+    // 5	Anual
+    // 6	Semanal
+    // 7	Diário
+    plan.PlanFrequence = new PlanFrequence();
+    plan.PlanFrequence.Code = "1";
+
+    plan.Name = "Teste"; //Nome do plano
+    plan.Description = "Integração"; // Descrição do plano
+    plan.Amount = "10.00"; // Valor do plano
+    plan.SubscriptionLimit = "200"; // Limite de adesões
+    plan.DaysTrial = 30; // Período de teste 
+    plan.DaysToInactive = "2"; // Dias de inadimplência
+    plan.ChargeDay = "10"; // Dia de cobrança
+    plan.SubscriptionTax = "20.00"; // Taxa de adesão
+    plan.IsProRata = true; //Cobrança Pro-Rata
+    plan.IsEnabled = true; //Ativado
+    plan.IsImmediateCharge = false; //Cobrar imediatamente
+    plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
+    plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
+
+
+    PlanRequest.Add(plan)
+        .then(function (result) {
+
+            //...
+
+        }, function (err) {
+
+             //...
+
+        });
+// ...
+```
+
+
+### Realizando uma adesão
+
+```javascript
+  
+  
+    var subscription = new Subscription();
+    subscription.Plan = 68;
+    subscription.ChargeDate = "2019-06-30";
+    subscription.IsSandbox = true;
+
+    subscription.SubscriptionObject = {
+        //Cartão de crédito
+        // TokenCard: 'eb8a1d78-add8-46ab-ae33-9039d8429381'
+
+        //Débito em conta 
+        Bank: {
+            Code: "136"
+        },
+        BankAccount: "5432",
+        BankAccountDigit: "1",
+        BankAgency: "1234",
+        BankAgencyDigit: "5"
+    }
+
+    subscription.Customer = new Customer();
+    subscription.Customer.Name = "João da silva";
+    subscription.Customer.Identity = "31037942000178";
+    subscription.Customer.Phone = "51999999999";
+    subscription.Customer.Email = "safe2pay@safe2pay.com.br";
+
+    subscription.Customer.Address = new Address();
+    subscription.Customer.Address.ZipCode = "90670090";
+    subscription.Customer.Address.Street = "Logradouro";
+    subscription.Customer.Address.Complement = "Complemento";
+    subscription.Customer.Address.Number = "123";
+    subscription.Customer.Address.District = "Higienopolis";
+    subscription.Customer.Address.StateInitials = "RS";
+    subscription.Customer.Address.CityName = "Porto Alegre";
+    subscription.Customer.Address.CountryName = "Brasil";
+
+    SubscriptionRequest.Add(subscription)
+        .then(function (result) {
+
+            //...
+
+        }, function (err) {
+
+            //...
+
+
+        });
+// ...
+```
+
 
 ## Informações adicionais / Contato
 

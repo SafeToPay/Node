@@ -1,22 +1,39 @@
-var PlanRequest = require('../Request/PlanRequest');
-var Plan = require('../Models/Merchant/Plan');
-var PlanFrequence = require('../Models/Merchant/PlanFrequence');
+const safe2pay = require('../dist/safe2pay');
+
+const PlanRequest = safe2pay.api.PlanRequest;
+var Plan = safe2pay.model.merchant.Plan;
+var PlanFrequence = safe2pay.model.merchant.PlanFrequence;
 
 
 function ListTest() {
     var PageNumber = 1;
     var RowsPage = 10;
 
-    var response = PlanRequest.List(PageNumber, RowsPage);
+    PlanRequest.List(PageNumber, RowsPage)
+        .then().then(function (result) {
 
-    console.log(response);
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 };
 
 function GetTest() {
 
-    var Id = 80;
-    var response = PlanRequest.Get(Id);
-    console.log(response);
+    var Id = 149;
+    PlanRequest.Get(Id)
+        .then().then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function UpdateTest() {
@@ -32,7 +49,7 @@ function UpdateTest() {
     // 5	Anual
     // 6	Semanal
     // 7	Diário
-    plan.Id = 81;
+    plan.Id = 149;
     plan.PlanFrequence = new PlanFrequence();
     plan.PlanFrequence.Code = "1";
 
@@ -51,13 +68,21 @@ function UpdateTest() {
     plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
 
 
-    var response = PlanRequest.Update(plan);
-    console.log(response);
+    PlanRequest.Update(plan)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
 
 function AddTest() {
 
-   
+
     //UPDATE
     var plan = new Plan();
     //Frequencia do plano
@@ -69,7 +94,6 @@ function AddTest() {
     // 5	Anual
     // 6	Semanal
     // 7	Diário
-    plan.Id = 81;
     plan.PlanFrequence = new PlanFrequence();
     plan.PlanFrequence.Code = "1";
 
@@ -88,6 +112,19 @@ function AddTest() {
     plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
 
 
-    var response = PlanRequest.Add(plan);
-    console.log(response);
+    PlanRequest.Add(plan)
+        .then(function (result) {
+
+            console.log(result);
+
+        }, function (err) {
+
+            console.log(err);
+
+        });
 }
+
+// ListTest();
+// GetTest();
+// UpdateTest();
+// AddTest();
