@@ -12,7 +12,7 @@
     "facil",
     "segurança"
   ],
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": {
     "name": "Lucas Diogo da Silva",
     "email": "integracao@safe2pay.com.br",
@@ -21,6 +21,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SafeToPay/Node"
+  },
+  "dependencies":{	
+    "request":"2.88.0"	
   },
   "license": "MIT",
   "engines": {
