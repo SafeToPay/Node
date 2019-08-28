@@ -10,7 +10,7 @@ chai.use(subSet);
 describe('AccountDepositTest Test', function() {
 
     before(function() {
-        const enviroment = safe2pay.enviroment.setApiKey('5A3A044DE838403F9566BDFBEE9DE763');
+        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
  
       });
 
