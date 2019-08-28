@@ -13,7 +13,6 @@
     * [x] Cartão de crédito.
     * [x] Bitcoin.
     * [x] Cartão de débito.
-    * [x] Débito em conta.
     * [x] Carnê.
     * [x] Lote de Carnês.
 * [x] Gerenciamento de subcontas para Marketplace.

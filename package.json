@@ -1,7 +1,7 @@
 {
   "name": "safe2pay",
   "description": "Biblioteca para integração com a plataforma de pagamentos Safe2Pay",
-  "readmeFilename": "README.md" ,
+  "readmeFilename": "README.md",
   "keywords": [
     "payment",
     "pagamento",
@@ -22,12 +22,18 @@
     "type": "git",
     "url": "git+https://github.com/SafeToPay/Node"
   },
-  "dependencies":{	
-    "request":"2.88.0"	
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-subset": "^1.6.0",
+    "mocha": "^6.2.0",
+    "request": "2.88.0"
   },
   "license": "MIT",
   "engines": {
     "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "mocha"
   },
   "main": "./dist/safe2pay.js"
 }
