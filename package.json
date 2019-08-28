@@ -23,9 +23,7 @@
     "url": "git+https://github.com/SafeToPay/Node"
   },
   "dependencies": {
-    "chai": "^4.2.0",
     "chai-subset": "^1.6.0",
-    "mocha": "^6.2.0",
     "request": "2.88.0"
   },
   "license": "MIT",
@@ -33,7 +31,11 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
-  "main": "./dist/safe2pay.js"
+  "main": "./dist/safe2pay.js",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
 }

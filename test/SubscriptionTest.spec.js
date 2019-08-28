@@ -12,10 +12,10 @@ const subSet = require('chai-subset');
 chai.use(subSet);
 
 
-describe('Tokenization Test', function () {
+describe('Subscription Test', function () {
 
     before(function () {
-        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+        const enviroment = safe2pay.enviroment.setApiKey('5A3A044DE838403F9566BDFBEE9DE763');
 
     });
 

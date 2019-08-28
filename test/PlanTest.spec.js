@@ -1,131 +1,113 @@
 const safe2pay = require('../dist/safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 const PlanRequest = safe2pay.api.PlanRequest;
 var Plan = safe2pay.model.merchant.Plan;
 var PlanFrequence = safe2pay.model.merchant.PlanFrequence;
 
-
-function ListTest() {
-    var PageNumber = 1;
-    var RowsPage = 10;
-
-    PlanRequest.List(PageNumber, RowsPage)
-        .then().then(function (result) {
-
-            console.log(result);
-
-        }, function (err) {
-
-            console.log(err);
-
-        });
-};
-
-function GetTest() {
-
-    var Id = 149;
-    PlanRequest.Get(Id)
-        .then().then(function (result) {
-
-            console.log(result);
-
-        }, function (err) {
-
-            console.log(err);
-
-        });
-}
-
-function UpdateTest() {
-
-    //UPDATE
-    var plan = new Plan();
-    //Frequencia do plano
-    //Code Name
-    // 1	Mensal
-    // 2	Bimestral
-    // 3	Trimestral
-    // 4	Semestral
-    // 5	Anual
-    // 6	Semanal
-    // 7	Diário
-    plan.Id = 149;
-    plan.PlanFrequence = new PlanFrequence();
-    plan.PlanFrequence.Code = "1";
-
-    plan.Name = "Teste"; //Nome do plano
-    plan.Description = "Integração"; // Descrição do plano
-    plan.Amount = "10.00"; // Valor do plano
-    plan.SubscriptionLimit = "200"; // Limite de adesões
-    plan.DaysTrial = 30; // Período de teste 
-    plan.DaysToInactive = "2"; // Dias de inadimplência
-    plan.ChargeDay = "10"; // Dia de cobrança
-    plan.SubscriptionTax = "20.00"; // Taxa de adesão
-    plan.IsProRata = true; //Cobrança Pro-Rata
-    plan.IsEnabled = true; //Ativado
-    plan.IsImmediateCharge = false; //Cobrar imediatamente
-    plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
-    plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
+const chai = require('chai');
+const subSet = require('chai-subset');
+chai.use(subSet);
 
 
-    PlanRequest.Update(plan)
-        .then(function (result) {
+describe('Plan Test', function () {
 
-            console.log(result);
+    before(function () {
+        const enviroment = safe2pay.enviroment.setApiKey('5A3A044DE838403F9566BDFBEE9DE763');
 
-        }, function (err) {
+    });
 
-            console.log(err);
+    it('LIST', async () => {
 
-        });
-}
+        var PageNumber = 1;
+        var RowsPage = 10;
 
-function AddTest() {
+        const response = await PlanRequest.List(PageNumber, RowsPage);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail).to.not.equal(null);
+    });
 
+    it('GET', async () => {
 
-    //UPDATE
-    var plan = new Plan();
-    //Frequencia do plano
-    //Code Name
-    // 1	Mensal
-    // 2	Bimestral
-    // 3	Trimestral
-    // 4	Semestral
-    // 5	Anual
-    // 6	Semanal
-    // 7	Diário
-    plan.PlanFrequence = new PlanFrequence();
-    plan.PlanFrequence.Code = "1";
+        var Id = 149;
 
-    plan.Name = "Teste"; //Nome do plano
-    plan.Description = "Integração"; // Descrição do plano
-    plan.Amount = "10.00"; // Valor do plano
-    plan.SubscriptionLimit = "200"; // Limite de adesões
-    plan.DaysTrial = 30; // Período de teste 
-    plan.DaysToInactive = "2"; // Dias de inadimplência
-    plan.ChargeDay = "10"; // Dia de cobrança
-    plan.SubscriptionTax = "20.00"; // Taxa de adesão
-    plan.IsProRata = true; //Cobrança Pro-Rata
-    plan.IsEnabled = true; //Ativado
-    plan.IsImmediateCharge = false; //Cobrar imediatamente
-    plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
-    plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
+        const response = await PlanRequest.Get(Id);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail).to.not.equal(null);
+    });
 
 
-    PlanRequest.Add(plan)
-        .then(function (result) {
+    it('UPDATE', async () => {
 
-            console.log(result);
+        //UPDATE
+        var plan = new Plan();
+        //Frequencia do plano
+        //Code Name
+        // 1	Mensal
+        // 2	Bimestral
+        // 3	Trimestral
+        // 4	Semestral
+        // 5	Anual
+        // 6	Semanal
+        // 7	Diário
+        plan.Id = 149;
+        plan.PlanFrequence = new PlanFrequence();
+        plan.PlanFrequence.Code = "1";
 
-        }, function (err) {
+        plan.Name = "Teste"; //Nome do plano
+        plan.Description = "Integração"; // Descrição do plano
+        plan.Amount = "10.00"; // Valor do plano
+        plan.SubscriptionLimit = "200"; // Limite de adesões
+        plan.DaysTrial = 30; // Período de teste 
+        plan.DaysToInactive = "2"; // Dias de inadimplência
+        plan.ChargeDay = "10"; // Dia de cobrança
+        plan.SubscriptionTax = "20.00"; // Taxa de adesão
+        plan.IsProRata = true; //Cobrança Pro-Rata
+        plan.IsEnabled = true; //Ativado
+        plan.IsImmediateCharge = false; //Cobrar imediatamente
+        plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
+        plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
 
-            console.log(err);
 
-        });
-}
+        const response = await PlanRequest.Update(plan);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail).to.not.equal(null);
+    });
 
-// ListTest();
-// GetTest();
-// UpdateTest();
-// AddTest();
+    it('UPDATE', async () => {
+
+        //UPDATE
+        var plan = new Plan();
+        //Frequencia do plano
+        //Code Name
+        // 1	Mensal
+        // 2	Bimestral
+        // 3	Trimestral
+        // 4	Semestral
+        // 5	Anual
+        // 6	Semanal
+        // 7	Diário
+        plan.PlanFrequence = new PlanFrequence();
+        plan.PlanFrequence.Code = "1";
+
+        plan.Name = "Teste"; //Nome do plano
+        plan.Description = "Integração"; // Descrição do plano
+        plan.Amount = "10.00"; // Valor do plano
+        plan.SubscriptionLimit = "200"; // Limite de adesões
+        plan.DaysTrial = 30; // Período de teste 
+        plan.DaysToInactive = "2"; // Dias de inadimplência
+        plan.ChargeDay = "10"; // Dia de cobrança
+        plan.SubscriptionTax = "20.00"; // Taxa de adesão
+        plan.IsProRata = true; //Cobrança Pro-Rata
+        plan.IsEnabled = true; //Ativado
+        plan.IsImmediateCharge = false; //Cobrar imediatamente
+        plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
+        plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
+
+
+        const response = await PlanRequest.Add(plan);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail).to.not.equal(null);
+    });
+
+
+});
