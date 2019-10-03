@@ -16,7 +16,6 @@
     * [x] Carnê.
     * [x] Lote de Carnês.
 * [x] Gerenciamento de subcontas para Marketplace.
-* [x] Recorrência
 
 ## Instalação
 
@@ -514,7 +513,13 @@ var CreditCard = safe2pay.model.payment.CreditCard;
 
  var Id = 851356;
 
-    PaymentRequest.Refund(Id)
+var CancelType =  PaymentRequest.CancelType.BANKSLIP;
+//var CancelType =  PaymentRequest.CancelType.CREDIT;
+//var CancelType =  PaymentRequest.CancelType.DEBIT;
+
+const response = await PaymentRequest.Refund(Id,CancelType);
+
+    PaymentRequest.Refund(Id,type)
         .then(function (result) {
 
              //...
@@ -528,238 +533,6 @@ var CreditCard = safe2pay.model.payment.CreditCard;
 ```
 
 
-### Criando uma venda com carnê
-
-```javascript
-
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
-
-//api
-const PaymentRequest = safe2pay.api.PaymentRequest;
-var Carnet = safe2pay.model.payment.Carnet;
-var Transaction = safe2pay.model.transaction.Transaction;
-var Customer = safe2pay.model.general.Customer;
-var Product = safe2pay.model.general.Product
-var Address = safe2pay.model.general.Address;
-
-    //Inicializar método de pagamento
-    var payload = new Transaction();
-    //Ambiente de homologação
-    payload.IsSandbox = true;
-    //Descrição geral 
-    payload.Application = "Teste SDK  NodeJS";
-    //Nome do vendedor
-    payload.Vendor = "João da Silva"
-    //Url de callback
-    payload.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
-    //Código da forma de pagamento
-    // 1 - Boleto bancário
-    // 2 - Cartão de crédito
-    // 3 - Criptomoeda
-    // 4 - Cartão de débito 
-    // 10 - Débito em conta 
-    payload.PaymentMethod = "1";
-
-    //Informa o objeto de pagamento
-
-    //Objeto de pagamento - para boleto bancário
-    var carnet = new Carnet();
-    carnet.Message = "Teste";
-    carnet.PenaltyAmount = 10;
-    carnet.InterestAmount = 10;
-
-    bankslip = new BankSlip();
-    bankslip.DueDate = new Date(2019, 9, 22);
-    bankslip.Amount = 1.99;
-    bankslip.Message = [
-        "Mensagem 1",
-        "Mensagem 2",
-        "Mensagem 3"
-    ];
-
-    bankslip2 = new BankSlip();
-    bankslip2.DueDate = new Date(2019, 10, 22);
-    bankslip2.Amount = 1.99;
-    bankslip2.Message = [
-        "Mensagem 1",
-        "Mensagem 2",
-        "Mensagem 3"
-    ];
-
-    bankslip3 = new BankSlip();
-    bankslip3.DueDate = new Date(2019, 11, 22);
-    bankslip3.Amount = 1.99;
-    bankslip3.Message = [
-        "Mensagem 1",
-        "Mensagem 2",
-        "Mensagem 3"
-    ];
-
-
-    carnet.BankSlips.push(bankslip);
-    carnet.BankSlips.push(bankslip2);
-    carnet.BankSlips.push(bankslip3);
-
-    payload.PaymentObject = carnet;
-
-    //Lista de produtos incluídos na cobrança
-    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-
-    //Dados do endereço do cliente
-    var address = new Address();
-    address.ZipCode = "90670090";
-    address.Street = "Logradouro";
-    address.Complement = "Complemento";
-    address.Number = "123";
-    address.District = "Higienopolis";
-    address.StateInitials = "RS";
-    address.CityName = "Porto Alegre";
-    address.CountryName = "Brasil";
-
-    //Dados do cliente
-    var customer = new Customer();
-    customer.Name = "João da silva";
-    customer.Identity = "18978393080";
-    customer.Phone = "51999999999";
-    customer.Email = "safe2pay@safe2pay.com.br";
-    customer.Address = address;
-
-    payload.Customer = customer;
-
-    PaymentRequest.Carnet(payload)
-        .then(function (result) {
-
-             //...
-
-        }, function (err) {
-
-            //...
-
-        });
-// ...
-```
-
-
-
-### Criando uma subconta
-
-```javascript
-
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
-
-const MarketplaceRequest = safe2pay.api.MarketplaceRequest;
-var BankData = safe2pay.model.bank.BankData;
-var Bank = safe2pay.model.bank.Bank;
-var Address = safe2pay.model.general.Address;
-var Merchant = safe2pay.model.merchant.Merchant;
-var MerchantSplit = safe2pay.model.merchant.MerchantSplit;
-var MerchantSplitTax = safe2pay.model.merchant.MerchantSplitTax;
-  
-    var merchant = new Merchant();
-    //dados da empresa
-    merchant.Identity = "53797700000115";
-    merchant.Name = "Francisco e Laís Filmagens ME";
-    merchant.CommercialName = "Teste";
-    merchant.Email = "2e8901a278@hellomail.fun";
-    merchant.ResponsibleName = "Responsável";
-    merchant.ResponsibleIdentity = "04270435062";
-    //responsável técnico
-    merchant.TechEmail = "aaee255acb@hellomail.fun";
-    merchant.TechName = "Responsável técnico";
-    merchant.TechIdentity = "32001774117";
-    //dados de endereço
-    merchant.Address = new Address();
-    merchant.Address.ZipCode = "90670090";
-    merchant.Address.Street = "Logradouro";
-    merchant.Address.Complement = "Complemento";
-    merchant.Address.Number = "123";
-    merchant.Address.District = "Higienopolis";
-    merchant.Address.StateInitials = "RS";
-    merchant.Address.CityName = "Porto Alegre";
-    merchant.Address.CountryName = "Brasil";
-    //dados bancários
-    merchant.BankData = new BankData();
-    merchant.BankData.Bank = new Bank("041");
-    merchant.BankData.BankAgency = "1676";
-    merchant.BankData.BankAgencyDigit = "0";
-    merchant.BankData.BankAccount = "41776";
-    merchant.BankData.BankAccountDigit = "7";
-    merchant.BankData.Operation = "3";
-
-    
-    var splitBoleto =  new MerchantSplit();
-    splitBoleto.IsSubaccountTaxPayer = false;
-    splitBoleto.PaymentMethodCode = "1";
-    splitBoleto.Taxes.push(
-        new MerchantSplitTax("1", "1.00"),
-    );
-
-    var splitCredito =  new MerchantSplit();
-    splitCredito.IsSubaccountTaxPayer = false;
-    splitCredito.PaymentMethodCode = "2";
-    splitCredito.Taxes.push(
-        new MerchantSplitTax("1", "1.00"),
-    );
-
-    var splitBitcoin =  new MerchantSplit();
-    splitCredito.IsSubaccountTaxPayer = false;
-    splitCredito.PaymentMethodCode = "3";
-    splitCredito.Taxes.push(
-        new MerchantSplitTax("1", "1.00"),
-    );
-
-    var splitDebito =  new MerchantSplit();
-    splitDebito.IsSubaccountTaxPayer = false;
-    splitDebito.PaymentMethodCode = "4";
-    splitDebito.Taxes.push(
-        new MerchantSplitTax("1", "1.00"),
-    );
-
-    //splits
-    merchant.MerchantSplit.push(splitBoleto,splitCredito,splitDebito);
-
-
-    MarketplaceRequest.Add(merchant)
-        .then(function (result) {
-
-            //...
-
-        }, function (err) {
-
-            //...
-
-        });
-// ...
-```
-
-
-
-### Listando subcontas
-
-```javascript
-
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
-  
-   var PageNumber = 1;
-    var RowsPage = 10;
-
-    MarketplaceRequest.List(PageNumber, RowsPage)
-        .then(function (result) {
-
-            //...
-
-        }, function (err) {
-
-            //...
-
-        });
-// ...
-```
 
 ## Informações adicionais / Contato
 
