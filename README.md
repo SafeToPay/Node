@@ -502,7 +502,7 @@ var Address = safe2pay.model.general.Address;
 ```
 
 
-### Estornando uma transação feita com cartão de crédito
+### Cancelando uma venda
 
 ```javascript
 
