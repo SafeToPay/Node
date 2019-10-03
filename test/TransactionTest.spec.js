@@ -10,13 +10,20 @@ chai.use(subSet);
 describe('Transaction Test', function() {
 
     before(function() {
-        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
+        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
  
       });
 
     it('GET', async () => {
         var Id = 852920;
         const response = await  TransactionRequest.Get(Id);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.Id).to.not.equal(0);
+      });
+
+      it('GETREFERENCE', async () => {
+        var reference = "1059856";
+        const response = await  TransactionRequest.GetByReference(reference);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.Id).to.not.equal(0);
       });

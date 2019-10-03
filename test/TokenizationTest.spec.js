@@ -11,7 +11,7 @@ chai.use(subSet);
 describe('Tokenization Test', function() {
 
     before(function() {
-        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
+        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
  
       });
 

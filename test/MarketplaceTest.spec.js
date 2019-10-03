@@ -17,7 +17,7 @@ chai.use(subSet);
 describe('Marketplace Test', function () {
 
     before(function () {
-        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
+        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
     });
 

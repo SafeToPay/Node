@@ -2299,7 +2299,7 @@ exports = module.exports = Base;
  * Check if both stdio streams are associated with a tty.
  */
 
-var isatty = tty.isatty(1) && tty.isatty(2);
+var isatty = process.stdout.isTTY && process.stderr.isTTY;
 
 /**
  * Save log references to avoid tests interfering (see GH-3604).
@@ -5614,7 +5614,7 @@ function Runner(suite, delay) {
   });
   this._defaultGrep = /.*/;
   this.grep(this._defaultGrep);
-  this.globals(this.globalProps().concat(extraGlobals()));
+  this.globals(this.globalProps());
 }
 
 /**
@@ -6487,30 +6487,6 @@ function thrown2Error(err) {
   return new Error(
     'the ' + type(err) + ' ' + stringify(err) + ' was thrown, throw an Error :)'
   );
-}
-
-/**
- * Array of globals dependent on the environment.
- *
- * @return {Array}
- * @deprecated
- * @todo remove; long since unsupported
- * @private
- */
-function extraGlobals() {
-  if (typeof process === 'object' && typeof process.version === 'string') {
-    var parts = process.version.split('.');
-    var nodeVersion = parts.reduce(function(a, v) {
-      return (a << 8) | v;
-    });
-
-    // 'errno' was renamed to process._errno in v0.9.11.
-    if (nodeVersion < 0x00090b) {
-      return ['errno'];
-    }
-  }
-
-  return [];
 }
 
 Runner.constants = constants;
@@ -18097,7 +18073,7 @@ function hasOwnProperty(obj, prop) {
 },{"./support/isBuffer":88,"_process":69,"inherits":56}],90:[function(require,module,exports){
 module.exports={
   "name": "mocha",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "homepage": "https://mochajs.org/",
   "notifyLogo": "https://ibin.co/4QuRuGjXvl36.png"
 }

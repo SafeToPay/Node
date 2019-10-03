@@ -10,29 +10,34 @@ chai.use(subSet);
 describe('AccountDepositTest Test', function() {
 
     before(function() {
-        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
+        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
  
       });
 
-    it('DETAIL', async () => {
-        const Id = 287891;
-        const response = await   AccountDepositRequest.Detail(Id);
+    it('DetailList', async () => {
+      var day = 17;
+      var month = 9;
+      var year = 2019;
+      var Page = 1;
+      var Rows = 10;
+
+
+        const response = await   AccountDepositRequest.DetailList(day,month,year,Page,Rows);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.Id).to.not.equal(0);
       });
 
       it('LIST', async () => {
-        var CreatedDateInitial = "2019-07-01";
-        var CreatedDateEnd = "2019-07-16";
-        var PageNumber = 1;
-        var RowsPerPage = 10;
 
-        const response = await    AccountDepositRequest.List(CreatedDateInitial, CreatedDateEnd, PageNumber, RowsPerPage);
+        var month = 5;
+        var year = 2019;
+
+        const response = await    AccountDepositRequest.List(month,year);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.Id).to.not.equal(0);
       });
 
-      it('GET', async () => {
+      it('GetBankAccount', async () => {
         const response = await    AccountDepositRequest.GetBankAccount();
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.Id).to.not.equal(0);

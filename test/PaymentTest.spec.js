@@ -19,10 +19,12 @@ const subSet = require('chai-subset');
 chai.use(subSet);
 
 
-describe('Tokenization Test', function () {
+debugger;
+
+describe('Payment', function () {
 
     before(function () {
-        const enviroment = safe2pay.enviroment.setApiKey('X-API-KEY');
+        const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
     });
 
@@ -56,7 +58,7 @@ describe('Tokenization Test', function () {
 
         //Objeto de pagamento - para boleto bancário
         var bankslip = new BankSlip();
-        bankslip.DueDate = "30/09/2019";
+        bankslip.DueDate = "30/10/2019";
         bankslip.CancelAfterDue = false;
         bankslip.IsEnablePartialPayment = false;
         bankslip.PenaltyRate = 2.00;
@@ -97,7 +99,7 @@ describe('Tokenization Test', function () {
 
         payload.Customer = customer;
 
-        const response = await PaymentRequest.BankSlip(payload);
+        const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -158,7 +160,7 @@ describe('Tokenization Test', function () {
 
         payload.Customer = customer;
 
-        const response = await PaymentRequest.CreditCard(payload);
+        const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -210,7 +212,7 @@ describe('Tokenization Test', function () {
 
         payload.Customer = customer;
 
-        const response = await PaymentRequest.CryptoCurrency(payload);
+        const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -220,6 +222,8 @@ describe('Tokenization Test', function () {
 
         //Inicializar método de pagamento
         var payload = new Transaction();
+        //Flag de autenticação para o débito
+        payload.Authenticate = true;
         //Ambiente de homologação
         payload.IsSandbox = true;
         //Descrição geral 
@@ -273,16 +277,7 @@ describe('Tokenization Test', function () {
 
         payload.Customer = customer;
 
-        const response = await PaymentRequest.DebitCard(payload);
-        chai.expect(response.HasError).to.equals(false);
-        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
-    });
-
-    it('Refund', async () => {
-
-        var Id = 851356;
-
-        const response = await PaymentRequest.Refund(Id);
+        const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -317,7 +312,7 @@ describe('Tokenization Test', function () {
         for (let index = 0; index < 15; index++) {
 
             bankslip = new BankSlip();
-            bankslip.DueDate = new Date(2019, 9, 22);
+            bankslip.DueDate = new Date(2019, 10, 22);
             bankslip.Amount = 1.99;
             bankslip.Message = [
                 "Mensagem 1",
@@ -397,7 +392,7 @@ describe('Tokenization Test', function () {
             for (let index = 0; index < 15; index++) {
 
                 bankslip = new BankSlip();
-                bankslip.DueDate = new Date(2019, 9, 22);
+                bankslip.DueDate = new Date(2019, 10, 22);
                 bankslip.Amount = 1.99;
                 bankslip.Message = [
                     "Mensagem 1",
@@ -442,6 +437,64 @@ describe('Tokenization Test', function () {
         }
 
         const response = await PaymentRequest.CarnetLot(payload);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('CarnetGet', async () => {
+
+        var identifier = "4b9d8c72e9474f53910af6a27bf7000b";
+
+        const response = await PaymentRequest.CarnetGet(identifier);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('CarnetGetLot', async () => {
+
+        var identifier = "4b9d8c72e9474f53910af6a27bf7000b";
+
+        const response = await PaymentRequest.CarnetGetLot(identifier);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('ResendCarnet', async () => {
+
+        var identifier = "4b9d8c72e9474f53910af6a27bf7000b";
+
+        const response = await PaymentRequest.ResendCarnet(identifier);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('CancelCarnet', async () => {
+
+        var identifier = "4b9d8c72e9474f53910af6a27bf7000b";
+
+        const response = await PaymentRequest.CancelCarnet(identifier);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('CancelCarnetLot', async () => {
+
+        var identifier = "4b9d8c72e9474f53910af6a27bf7000b";
+
+        const response = await PaymentRequest.CancelCarnetLot(identifier);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('Refund', async () => {
+
+        var Id = 851356;
+        
+       var CancelType =  PaymentRequest.CancelType.BANKSLIP;
+        //var CancelType =  PaymentRequest.CancelType.CREDIT;
+        //var CancelType =  PaymentRequest.CancelType.DEBIT;
+
+        const response = await PaymentRequest.Refund(Id,CancelType);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });

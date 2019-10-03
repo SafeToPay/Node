@@ -40,11 +40,8 @@ Após a importação da biblioteca para utilizar basta utilizar o comando  'safe
 As APIs do inclusas na SDK são:
 
     AccountDepositRequest
-    DebitAccountRequest
     MarketplaceRequest
     PaymentRequest
-    PlanRequest
-    SubscriptionRequest
     TokenizationRequest
     TransactionRequest
 
@@ -58,7 +55,6 @@ Transfer
 TransferRegister
 Transaction
 TransactionStatus
-Subscription
 SingleSale
 SingleSalePayment
 SingleSalePaymentMethod
@@ -86,14 +82,12 @@ MerchantSplitTax
 MerchantType
 TaxType
 ListTax
-Plan
-PlanFrequence
 ```
    
 
 ### Tratamento das respostas da API
 
-Após o envio, a própria chamada devolverá a resposta em um objeto completo com as propriedades desta, onde um cast das classes de resposta permitirá o tratamento das propriedades do objeto de retorno de forma simplificada, sem a necessidade de criar os mesmos modelos em seu projeto. Utilize a `CheckoutResponse` para transações ou `InvoiceResponse` para solicitações de cobrança.
+Após o envio, a própria chamada devolverá a resposta em um objeto completo com as propriedades desta, onde um cast das classes de resposta permitirá o tratamento das propriedades do objeto de retorno de forma simplificada, sem a necessidade de criar os mesmos modelos em seu projeto.
 
 
 ## Pagamentos / Transações
@@ -118,6 +112,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 8 = RECUSADO
 11 = LIBERADO
 12 = EM CANCELAMENTO
+13 = CHARGEBACK
 ```
 
 
@@ -252,7 +247,7 @@ var Address = safe2pay.model.general.Address;
 
     payload.Customer = customer;
 
-    PaymentRequest.BankSlip(payload)
+    PaymentRequest.Payment(payload)
         .then(function (result) {
 
              //...
@@ -337,7 +332,7 @@ var Address = safe2pay.model.general.Address;
     payload.Customer = customer;
 
 
-    PaymentRequest.CreditCard(payload)
+    PaymentRequest.Payment(payload)
         .then(function (result) {
 
              //...
@@ -410,7 +405,7 @@ var Address = safe2pay.model.general.Address;
     payload.Customer = customer;
 
 
-    PaymentRequest.CryptoCurrency(payload)
+    PaymentRequest.Payment(payload)
         .then(function (result) {
 
              //...
@@ -494,80 +489,7 @@ var Address = safe2pay.model.general.Address;
 
     payload.Customer = customer;
 
-    PaymentRequest.DebitCard(payload)
-        .then(function (result) {
-
-             //...
-
-        }, function (err) {
-
-             //...
-
-        });
-// ...
-```
-
-### Criando uma venda com débito em conta
-
-```javascript
-
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
-//api
-const PaymentRequest = safe2pay.api.PaymentRequest;
-
-var DebitCard = safe2pay.model.payment.DebitCard;
-var Transaction = safe2pay.model.transaction.Transaction;
-var Customer = safe2pay.model.general.Customer;
-var Product = safe2pay.model.general.Product
-var Address = safe2pay.model.general.Address;
-
-    //Inicializar método de pagamento
-    var payload = new Transaction();
-    //Ambiente de homologação
-    payload.IsSandbox = true;
-    //Descrição geral 
-    payload.Application = "Teste SDK  NodeJS";
-    //Nome do vendedor
-    payload.Vendor = "João da Silva"
-    //Url de callback
-    payload.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
-    //Código da forma de pagamento
-    // 1 - Boleto bancário
-    // 2 - Cartão de crédito
-    // 3 - Criptomoeda
-    // 4 - Cartão de débito 
-    // 10 - Débito em conta 
-    payload.PaymentMethod = "10";
-
-    //Informa o objeto de pagamento
-
-    //Objeto de pagamento - para boleto bancário
-    var bankData = new BankData();
-    bankData.Bank = "033";
-    bankData.BankAgency = "0435";
-    bankData.BankAgencyDigit = "1";
-    bankData.BankAccount = "7879487";
-    bankData.BankAccountDigit = "2";
-
-    payload.PaymentObject = {
-        BankData: bankData,
-        DueDate: "2019-05-30"
-    };
-
-    //Lista de produtos incluídos na cobrança
-    payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
-    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-    payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
-
-
-    //Dados do cliente
-    var customer = new Customer();
-    customer.Name = "João da silva";
-    customer.Identity = "18978393080";
-
-
-    PaymentRequest.DebitAccount(payload)
+    PaymentRequest.Payment(payload)
         .then(function (result) {
 
              //...
@@ -838,123 +760,6 @@ const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
         });
 // ...
 ```
-
-### Criando um plano
-
-```javascript
-
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
-
-const PlanRequest = safe2pay.api.PlanRequest;
-var Plan = safe2pay.model.merchant.Plan;
-var PlanFrequence = safe2pay.model.merchant.PlanFrequence;
-  
-    //UPDATE
-    var plan = new Plan();
-    //Frequencia do plano
-    //Code Name
-    // 1	Mensal
-    // 2	Bimestral
-    // 3	Trimestral
-    // 4	Semestral
-    // 5	Anual
-    // 6	Semanal
-    // 7	Diário
-    plan.PlanFrequence = new PlanFrequence();
-    plan.PlanFrequence.Code = "1";
-
-    plan.Name = "Teste"; //Nome do plano
-    plan.Description = "Integração"; // Descrição do plano
-    plan.Amount = "10.00"; // Valor do plano
-    plan.SubscriptionLimit = "200"; // Limite de adesões
-    plan.DaysTrial = 30; // Período de teste 
-    plan.DaysToInactive = "2"; // Dias de inadimplência
-    plan.ChargeDay = "10"; // Dia de cobrança
-    plan.SubscriptionTax = "20.00"; // Taxa de adesão
-    plan.IsProRata = true; //Cobrança Pro-Rata
-    plan.IsEnabled = true; //Ativado
-    plan.IsImmediateCharge = false; //Cobrar imediatamente
-    plan.CallbackUrl = "https://webhook.site/251107e2-bdb1-480d-934c-bab0eb413318"; // URL de callback para notificação via Webhook
-    plan.ExpirationDate = "2019-08-10"; //Data de expiração do plano
-
-
-    PlanRequest.Add(plan)
-        .then(function (result) {
-
-            //...
-
-        }, function (err) {
-
-             //...
-
-        });
-// ...
-```
-
-
-### Realizando uma adesão
-
-```javascript
-  
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key'); 
-
-const SubscriptionRequest = safe2pay.api.SubscriptionRequest;
-var Address = safe2pay.model.general.Address;
-var Customer = safe2pay.model.general.Customer;
-var Subscription = safe2pay.model.subscription.Subscription;
-
-  
-    var subscription = new Subscription();
-    subscription.Plan = 68;
-    subscription.ChargeDate = "2019-06-30";
-    subscription.IsSandbox = true;
-
-    subscription.SubscriptionObject = {
-        //Cartão de crédito
-        // TokenCard: 'eb8a1d78-add8-46ab-ae33-9039d8429381'
-
-        //Débito em conta 
-        Bank: {
-            Code: "136"
-        },
-        BankAccount: "5432",
-        BankAccountDigit: "1",
-        BankAgency: "1234",
-        BankAgencyDigit: "5"
-    }
-
-    subscription.Customer = new Customer();
-    subscription.Customer.Name = "João da silva";
-    subscription.Customer.Identity = "31037942000178";
-    subscription.Customer.Phone = "51999999999";
-    subscription.Customer.Email = "safe2pay@safe2pay.com.br";
-
-    subscription.Customer.Address = new Address();
-    subscription.Customer.Address.ZipCode = "90670090";
-    subscription.Customer.Address.Street = "Logradouro";
-    subscription.Customer.Address.Complement = "Complemento";
-    subscription.Customer.Address.Number = "123";
-    subscription.Customer.Address.District = "Higienopolis";
-    subscription.Customer.Address.StateInitials = "RS";
-    subscription.Customer.Address.CityName = "Porto Alegre";
-    subscription.Customer.Address.CountryName = "Brasil";
-
-    SubscriptionRequest.Add(subscription)
-        .then(function (result) {
-
-            //...
-
-        }, function (err) {
-
-            //...
-
-
-        });
-// ...
-```
-
 
 ## Informações adicionais / Contato
 
