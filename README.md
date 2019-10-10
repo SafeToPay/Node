@@ -29,8 +29,8 @@ A integração com a API do Safe2Pay se dá pelo modelo RESTful, de forma a real
 
 #### Exemplo
 
-const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+* const safe2pay = require('safe2pay');
+* const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
 
 
 A biblioteca contém os modelos para as requisições via api, necessitando passar somente o modelo do objeto a ser enviado.
@@ -47,7 +47,6 @@ As APIs do inclusas na SDK são:
 Para a importação dos objetos basta utilizar o comando 'safe2pay.model'
 
 Os modelos inclusos são:
-
 
 ```
 Transfer
