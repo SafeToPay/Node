@@ -1,3 +1,3 @@
-var Enviroment = require('../lib/Core/Enviroment');
-module.exports = Enviroment;
+var environment = require('../lib/Core/environment');
+module.exports = environment;
 

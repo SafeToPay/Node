@@ -12,9 +12,9 @@
     "facil",
     "segurança"
   ],
-  "version": "1.0.5",
+  "version": "1.0.7",
   "author": {
-    "name": "Lucas Diogo da Silva",
+    "name": "Safe2Pay",
     "email": "integracao@safe2pay.com.br",
     "homepage": "https://safe2pay.com.br/"
   },
@@ -36,6 +36,6 @@
   "main": "./dist/safe2pay.js",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.1"
+    "mocha": "^6.2.3"
   }
 }

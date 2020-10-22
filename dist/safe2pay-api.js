@@ -5,6 +5,8 @@ const PaymentRequest = require('../lib/Request/PaymentRequest');
 const TokenizationRequest = require('../lib/Request/TokenizationRequest');
 const TransactionRequest = require('../lib/Request/TransactionRequest');
 const SingleSaleRequest  = require('../lib/Request/SingleSaleRequest');
+const PlanRequest  = require('../lib/Request/PlanRequest');
+const SubscriptionRequest  = require('../lib/Request/SubscriptionRequest');
 
 module.exports = {
     AccountDepositRequest,
@@ -12,5 +14,7 @@ module.exports = {
     PaymentRequest,
     TokenizationRequest,
     TransactionRequest,
-    SingleSaleRequest
+    SingleSaleRequest,
+    PlanRequest,
+    SubscriptionRequest
 }

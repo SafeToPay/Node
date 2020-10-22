@@ -1,8 +1,8 @@
 const api = require('./safe2pay-api');
 const model = require('./safe2pay-models');
-const enviroment = require('./safe2pay-enviroment');
+const environment = require('./safe2pay-environment');
 module.exports = {
-api: api,
-model: model,
-enviroment: enviroment
+    api: api,
+    model: model,
+    environment: environment
 }
