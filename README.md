@@ -30,7 +30,7 @@ A integração com a API do Safe2Pay se dá pelo modelo RESTful, de forma a real
 #### Exemplo
 
 * const safe2pay = require('safe2pay');
-* const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+* const environment = safe2pay.environment.setApiKey('x-api-key');
 
 
 A biblioteca contém os modelos para as requisições via api, necessitando passar somente o modelo do objeto a ser enviado.
@@ -118,7 +118,7 @@ O retorno do envio da transação trará um status para esta, que pode ser igual
 
 ```javascript
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 
 var TransactionRequest = safe2pay.api.TransactionRequest;
 
@@ -141,7 +141,7 @@ TransactionRequest.Get(Id)
 ```javascript
 
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 
 const TokenizationRequest = safe2pay.api.TokenizationRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
@@ -171,7 +171,7 @@ TokenizationRequest.Create(creditCard)
 
 ```javascript
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 //api
 const PaymentRequest = safe2pay.api.PaymentRequest;
 
@@ -264,7 +264,7 @@ var Address = safe2pay.model.general.Address;
 ```javascript
 
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 //api
 const PaymentRequest = safe2pay.api.PaymentRequest;
 //modelos
@@ -348,7 +348,7 @@ var Address = safe2pay.model.general.Address;
 ```javascript
 
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 //api
 const PaymentRequest = safe2pay.api.PaymentRequest;
 
@@ -421,7 +421,7 @@ var Address = safe2pay.model.general.Address;
 ```javascript
 
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 //api
 const PaymentRequest = safe2pay.api.PaymentRequest;
 
@@ -506,7 +506,7 @@ var Address = safe2pay.model.general.Address;
 ```javascript
 
 const safe2pay = require('safe2pay');
-const enviroment = safe2pay.enviroment.setApiKey('x-api-key');
+const environment = safe2pay.environment.setApiKey('x-api-key');
 const TokenizationRequest = safe2pay.api.TokenizationRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
 
