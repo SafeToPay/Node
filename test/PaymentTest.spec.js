@@ -24,7 +24,7 @@ debugger;
 describe('Payment', function () {
 
     before(function () {
-        const environment = safe2pay.environment.setApiKey('x-api-key');
+        const environment = safe2pay.environment.setApiKey('5A3A044DE838403F9566BDFBEE9DE763');
 
     });
 
@@ -185,6 +185,58 @@ describe('Payment', function () {
         // 4 - Cartão de débito 
         // 10 - Débito em conta 
         payload.PaymentMethod = "3";
+
+        //Lista de produtos incluídos na cobrança
+        payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
+        payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+        payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
+
+        //Dados do endereço do cliente
+        var address = new Address();
+        address.ZipCode = "90670090";
+        address.Street = "Logradouro";
+        address.Complement = "Complemento";
+        address.Number = "123";
+        address.District = "Higienopolis";
+        address.StateInitials = "RS";
+        address.CityName = "Porto Alegre";
+        address.CountryName = "Brasil";
+
+        //Dados do cliente
+        var customer = new Customer();
+        customer.Name = "João da silva";
+        customer.Identity = "18978393080";
+        customer.Phone = "51999999999";
+        customer.Email = "safe2pay@safe2pay.com.br";
+        customer.Address = address;
+
+        payload.Customer = customer;
+
+        const response = await PaymentRequest.Payment(payload);
+        chai.expect(response.HasError).to.equals(false);
+        chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
+    });
+
+    it('Pix', async () => {
+
+
+        //Inicializar método de pagamento
+        var payload = new Transaction();
+        //Ambiente de homologação
+        payload.IsSandbox = true;
+        //Descrição geral 
+        payload.Application = "Teste SDK  NodeJS";
+        //Nome do vendedor
+        payload.Vendor = "João da Silva"
+        //Url de callback
+        payload.CallbackUrl = "https://callbacks.exemplo.com.br/api/Notify";
+        //Código da forma de pagamento
+        // 1 - Boleto bancário
+        // 2 - Cartão de crédito
+        // 3 - Criptomoeda
+        // 4 - Cartão de débito 
+        // 6 - Pix
+        payload.PaymentMethod = "6";
 
         //Lista de produtos incluídos na cobrança
         payload.Products.push(new Product("001", "Teste 1", 1.99, 10));
