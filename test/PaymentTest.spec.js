@@ -24,7 +24,7 @@ debugger;
 describe('Payment', function () {
 
     before(function () {
-        const environment = safe2pay.environment.setApiKey('5A3A044DE838403F9566BDFBEE9DE763');
+        const environment = safe2pay.environment.setApiKey('x-api-key');
 
     });
 
