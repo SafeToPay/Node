@@ -5,6 +5,7 @@ var path = "../lib/Models/";
 const Transfer = require(path +'Transference/Transfer');
 const TransferRegister = require(path +'Transference/TransferRegister');
 //transaction
+const Splits = require(path + 'Transaction/Splits')
 const Transaction = require(path +'Transaction/Transaction');
 const TransactionStatus = require(path +'Transaction/TransactionStatus');
 //subscription
@@ -54,6 +55,7 @@ module.exports = {
         TransferRegister
     },
     transaction: {
+        Splits,
         Transaction,
         TransactionStatus
     },

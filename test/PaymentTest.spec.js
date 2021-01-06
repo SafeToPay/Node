@@ -5,11 +5,11 @@ const PaymentRequest = safe2pay.api.PaymentRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
 var DebitCard = safe2pay.model.payment.DebitCard;
 var BankSlip = safe2pay.model.payment.Bankslip;
-var BankData = safe2pay.model.bank.BankData;
 
 var Carnet = safe2pay.model.payment.Carnet;
 var CarnetLot = safe2pay.model.payment.CarnetLot;
 var Transaction = safe2pay.model.transaction.Transaction;
+var splits = safe2pay.model.transaction.Splits;
 var Customer = safe2pay.model.general.Customer;
 var Product = safe2pay.model.general.Product
 var Address = safe2pay.model.general.Address;
@@ -58,7 +58,7 @@ describe('Payment', function () {
 
         //Objeto de pagamento - para boleto bancário
         var bankslip = new BankSlip();
-        bankslip.DueDate = "30/10/2019";
+        bankslip.DueDate = "30/10/2021";
         bankslip.CancelAfterDue = false;
         bankslip.IsEnablePartialPayment = false;
         bankslip.PenaltyRate = 2.00;
@@ -98,6 +98,10 @@ describe('Payment', function () {
         customer.Address = address;
 
         payload.Customer = customer;
+
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
 
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
@@ -160,6 +164,10 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
@@ -212,6 +220,10 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
@@ -263,6 +275,10 @@ describe('Payment', function () {
         customer.Address = address;
 
         payload.Customer = customer;
+
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
 
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
@@ -328,6 +344,10 @@ describe('Payment', function () {
         customer.Address = address;
 
         payload.Customer = customer;
+
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
 
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
