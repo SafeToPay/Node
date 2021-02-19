@@ -5,13 +5,15 @@ const PaymentRequest = safe2pay.api.PaymentRequest;
 var CreditCard = safe2pay.model.payment.CreditCard;
 var DebitCard = safe2pay.model.payment.DebitCard;
 var BankSlip = safe2pay.model.payment.Bankslip;
+var Pix = safe2pay.model.payment.Pix;
+var BankData = safe2pay.model.bank.BankData;
 
 var Carnet = safe2pay.model.payment.Carnet;
 var CarnetLot = safe2pay.model.payment.CarnetLot;
 var Transaction = safe2pay.model.transaction.Transaction;
 var splits = safe2pay.model.transaction.Splits;
 var Customer = safe2pay.model.general.Customer;
-var Product = safe2pay.model.general.Product
+var Product = safe2pay.model.general.Product;
 var Address = safe2pay.model.general.Address;
 
 const chai = require('chai');
@@ -78,6 +80,8 @@ describe('Payment', function () {
         payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
         payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
+        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
+
         //Dados do endereço do cliente
         var address = new Address();
         address.ZipCode = "90670090";
@@ -99,11 +103,10 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-
         const response = await PaymentRequest.Payment(payload);
+
+        console.log(response);
+
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -164,10 +167,6 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
@@ -220,10 +219,6 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
@@ -255,6 +250,11 @@ describe('Payment', function () {
         payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
         payload.Products.push(new Product("002", "Teste 1", 1.99, 10));
 
+        var pix = new Pix();
+        pix.Expiration = 3600;
+
+        payload.PaymentObject = pix;
+
         //Dados do endereço do cliente
         var address = new Address();
         address.ZipCode = "90670090";
@@ -269,18 +269,15 @@ describe('Payment', function () {
         //Dados do cliente
         var customer = new Customer();
         customer.Name = "João da silva";
-        customer.Identity = "18978393080";
+        customer.Identity = "04040761065";
         customer.Phone = "51999999999";
         customer.Email = "safe2pay@safe2pay.com.br";
         customer.Address = address;
 
         payload.Customer = customer;
 
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-
         const response = await PaymentRequest.Payment(payload);
+
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -344,10 +341,6 @@ describe('Payment', function () {
         customer.Address = address;
 
         payload.Customer = customer;
-
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
-        payload.Splits.push(new splits(2, 1, null, "45192956000170", "RAZAO SOCIAL - EMPRESA DE TESTE", false, 2.00));
 
         const response = await PaymentRequest.Payment(payload);
         chai.expect(response.HasError).to.equals(false);

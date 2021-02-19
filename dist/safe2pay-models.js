@@ -5,9 +5,9 @@ var path = "../lib/Models/";
 const Transfer = require(path +'Transference/Transfer');
 const TransferRegister = require(path +'Transference/TransferRegister');
 //transaction
-const Splits = require(path + 'Transaction/Splits')
 const Transaction = require(path +'Transaction/Transaction');
 const TransactionStatus = require(path +'Transaction/TransactionStatus');
+const Splits = require(path + 'Transaction/Splits')
 //subscription
 const Subscription = require(path +'Subscription/Subscription');
 //singlesale
@@ -27,6 +27,7 @@ const CarnetItems = require(path +'Payment/CarnetItems');
 const Bitcoin = require(path +'Payment/Bitcoin');
 const Bankslip = require(path +'Payment/Bankslip');
 const BankTransfer = require(path +'Payment/BankTransfer');
+const Pix = require(path +'Payment/Pix');
 
 //merchant
 const ListTax = require(path +'Merchant/ListTax');
@@ -78,7 +79,8 @@ module.exports = {
         Carnet,
         CarnetItems,
         CarnetLot,
-        PaymentMethod
+        PaymentMethod,
+        Pix
     },
     merchant: {
         Merchant,
