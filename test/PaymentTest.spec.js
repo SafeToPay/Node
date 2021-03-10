@@ -6,6 +6,7 @@ var CreditCard = safe2pay.model.payment.CreditCard;
 var DebitCard = safe2pay.model.payment.DebitCard;
 var BankSlip = safe2pay.model.payment.Bankslip;
 var Pix = safe2pay.model.payment.Pix;
+var Bitcoin = safe2pay.model.payment.Bitcoin;
 var BankData = safe2pay.model.bank.BankData;
 
 var Carnet = safe2pay.model.payment.Carnet;
@@ -133,7 +134,7 @@ describe('Payment', function () {
 
         //Informa o objeto de pagamento
 
-        //Objeto de pagamento - para boleto bancário
+        //Objeto de pagamento - para cartão de crédto
         var creditCard = new CreditCard();
         creditCard.Holder = "22/07/2019";
         creditCard.CardNumber = "4024007153763191";
@@ -219,7 +220,17 @@ describe('Payment', function () {
 
         payload.Customer = customer;
 
+        //Objeto de pagamento - para criptomoedas
+        var cryptoCurrency = new Bitcoin();
+        cryptoCurrency.Symbol = "BTC";
+
+        payload.PaymentObject = cryptoCurrency;
+
+        console.log(payload);
+
         const response = await PaymentRequest.Payment(payload);
+
+        //console.log(response);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
@@ -553,14 +564,17 @@ describe('Payment', function () {
 
     it('Refund', async () => {
 
-        var Id = 851356;
+        var Id = 12238921;
         
-       var CancelType =  PaymentRequest.CancelType.BANKSLIP;
-        //var CancelType =  PaymentRequest.CancelType.CREDIT;
+       //var CancelType =  PaymentRequest.CancelType.BANKSLIP;
+        var CancelType =  PaymentRequest.CancelType.CREDIT;
+        //Informar valor do estorno, apenas para cartão de crédito
+        var Amount = 5;
+
         //var CancelType =  PaymentRequest.CancelType.DEBIT;
 
-        const response = await PaymentRequest.Refund(Id,CancelType);
+        const response = await PaymentRequest.Refund(Id,CancelType, Amount);
         chai.expect(response.HasError).to.equals(false);
         chai.expect(response.ResponseDetail.TokenCard).to.not.equal(null);
     });
-});
+ });
