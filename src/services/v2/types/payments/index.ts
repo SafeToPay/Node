@@ -1,0 +1,6 @@
+export * from './boleto'
+export * from './credit_card'
+export * from './cryptocurrency'
+export * from './debit_card'
+export * from './credit_card'
+export * from './pix'

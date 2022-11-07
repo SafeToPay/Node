@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "module": "commonjs",
+    "target": "ES6",
+    "lib": [
+      "DOM",
+      "ES2020",
+      "ES2021",
+      "ES2022"
+    ],
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "outDir": "dist"
+  },
+  "typeRoots": [
+    "./src/types/*.d.ts",
+    "./node_modules/@types"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/dist2"
+  ]
+}
