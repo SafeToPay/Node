@@ -1,10 +1,11 @@
-const safe2pay = require('../dist/safe2pay');
+import * as safe2pay from '../dist/safe2pay.js';
 
-const AccountDepositRequest = safe2pay.api.AccountDepositRequest;
+import { AccountDepositRequest } from '../dist/safe2pay.js';
 
-const chai = require('chai');
-const subSet = require('chai-subset');
+import chai from 'chai';
+import subSet from 'chai-subset';
 chai.use(subSet);
+
 
 
 describe('AccountDepositTest Test', function() {
