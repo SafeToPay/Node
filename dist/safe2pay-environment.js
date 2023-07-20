@@ -1,2 +1,2 @@
-var Environment = require('../lib/Core/Environment');
-module.exports = Environment;
+import Environment from '../lib/Core/Environment.js';
+export default Environment;
