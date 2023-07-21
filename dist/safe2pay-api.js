@@ -1,16 +1,15 @@
-//API
-const AccountDepositRequest = require('../lib/Request/AccountDepositRequest');
-const MarketplaceRequest = require('../lib/Request/MarketplaceRequest');
-const PaymentRequest = require('../lib/Request/PaymentRequest');
-const TokenizationRequest = require('../lib/Request/TokenizationRequest');
-const TransactionRequest = require('../lib/Request/TransactionRequest');
-const SingleSaleRequest  = require('../lib/Request/SingleSaleRequest');
+import AccountDepositRequest from '../lib/Request/AccountDepositRequest.js';
+import MarketplaceRequest from '../lib/Request/MarketplaceRequest.js';
+import PaymentRequest from '../lib/Request/PaymentRequest.js';
+import TokenizationRequest from '../lib/Request/TokenizationRequest.js';
+import TransactionRequest from '../lib/Request/TransactionRequest.js';
+import SingleSaleRequest from '../lib/Request/SingleSaleRequest.js';
 
-module.exports = {
+export {
     AccountDepositRequest,
     MarketplaceRequest,
     PaymentRequest,
     TokenizationRequest,
     TransactionRequest,
     SingleSaleRequest
-}
+};

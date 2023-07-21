@@ -1,106 +1,105 @@
-//transference
+const path = "../lib/Models/";
 
-var path = "../lib/Models/";
+import Transfer from '../lib/Models/Transference/Transfer.js';
+import TransferRegister from '../lib/Models/Transference/TransferRegister.js';
 
-const Transfer = require(path +'Transference/Transfer');
-const TransferRegister = require(path +'Transference/TransferRegister');
-//transaction
-const Transaction = require(path +'Transaction/Transaction');
-const TransactionStatus = require(path +'Transaction/TransactionStatus');
-const Splits = require(path + 'Transaction/Splits')
-//subscription
-const Subscription = require(path +'Subscription/Subscription');
-//singlesale
-const SingleSale = require(path +'SingleSale/SingleSale');
-const SingleSalePayment = require(path +'SingleSale/SingleSalePayment');
-const SingleSalePaymentMethod = require(path +'SingleSale/SingleSalePaymentMethod');
-const SingleSaleProduct = require(path +'SingleSale/SingleSaleProduct');
+import Transaction from '../lib/Models/Transaction/Transaction.js';
+import TransactionStatus from '../lib/Models/Transaction/TransactionStatus.js';
+import Splits from '../lib/Models/Transaction/Splits.js';
 
-//payment
-const PaymentMethod = require(path +'Payment/PaymentMethod');
-const DebitCard = require(path +'Payment/DebitCard');
-const DebbitAccount = require(path +'Payment/DebbitAccount');
-const CreditCard = require(path +'Payment/CreditCard');
-const Carnet = require(path +'Payment/Carnet');
-const CarnetLot = require(path +'Payment/CarnetLot');
-const CarnetItems = require(path +'Payment/CarnetItems');
-const Bitcoin = require(path +'Payment/Bitcoin');
-const Bankslip = require(path +'Payment/Bankslip');
-const BankTransfer = require(path +'Payment/BankTransfer');
-const Pix = require(path +'Payment/Pix');
+import Subscription from '../lib/Models/Subscription/Subscription.js';
 
-//merchant
-const ListTax = require(path +'Merchant/ListTax');
-const Merchant = require(path +'Merchant/Merchant');
-const MerchantPaymentDate = require(path +'Merchant/MerchantPaymentDate');
-const MerchantPaymentMethod = require(path +'Merchant/MerchantPaymentMethod');
-const MerchantSplit = require(path +'Merchant/MerchantSplit');
-const MerchantSplitTax = require(path +'Merchant/MerchantSplitTax');
-const MerchantType = require(path +'Merchant/MerchantType');
-const Plan = require(path +'Merchant/Plan');
-const PlanFrequence = require(path +'Merchant/PlanFrequence');
-const TaxType = require(path +'Merchant/TaxType');
+import SingleSale from '../lib/Models/SingleSale/SingleSale.js';
+import SingleSalePayment from '../lib/Models/SingleSale/SingleSalePayment.js';
+import SingleSalePaymentMethod from '../lib/Models/SingleSale/SingleSalePaymentMethod.js';
+import SingleSaleProduct from '../lib/Models/SingleSale/SingleSaleProduct.js';
 
-//general
-const Address = require(path +'General/Address');
-const Customer = require(path +'General/Customer');
-const Product = require(path +'General/Product');
+import PaymentMethod from '../lib/Models/Payment/PaymentMethod.js';
+import DebitCard from '../lib/Models/Payment/DebitCard.js';
+import DebbitAccount from '../lib/Models/Payment/DebbitAccount.js';
+import CreditCard from '../lib/Models/Payment/CreditCard.js';
+import Carnet from '../lib/Models/Payment/Carnet.js';
+import CarnetLot from '../lib/Models/Payment/CarnetLot.js';
+import CarnetItems from '../lib/Models/Payment/CarnetItems.js';
+import Bitcoin from '../lib/Models/Payment/Bitcoin.js';
+import Bankslip from '../lib/Models/Payment/Bankslip.js';
+import BankTransfer from '../lib/Models/Payment/BankTransfer.js';
+import Pix from '../lib/Models/Payment/Pix.js';
 
-//general
-const Bank = require(path +'Bank/Bank');
-const BankData = require(path +'Bank/BankData');
+import ListTax from '../lib/Models/Merchant/ListTax.js';
+import Merchant from '../lib/Models/Merchant/Merchant.js';
+import MerchantPaymentDate from '../lib/Models/Merchant/MerchantPaymentDate.js';
+import MerchantPaymentMethod from '../lib/Models/Merchant/MerchantPaymentMethod.js';
+import MerchantSplit from '../lib/Models/Merchant/MerchantSplit.js';
+import MerchantSplitTax from '../lib/Models/Merchant/MerchantSplitTax.js';
+import MerchantType from '../lib/Models/Merchant/MerchantType.js';
+import Plan from '../lib/Models/Merchant/Plan.js';
+import PlanFrequence from '../lib/Models/Merchant/PlanFrequence.js';
+import TaxType from '../lib/Models/Merchant/TaxType.js';
 
-module.exports = {
-    transference: {
-        Transfer,
-        TransferRegister
-    },
-    transaction: {
-        Splits,
-        Transaction,
-        TransactionStatus
-    },
-    subscription:{
-        Subscription
-    },
-    singlesale: {
-        SingleSale,
-        SingleSalePayment,
-        SingleSalePaymentMethod,
-        SingleSaleProduct
-    },
-    payment: {
-        Bankslip,
-        CreditCard,
-        Bitcoin,
-        DebitCard,
-        DebbitAccount,
-        BankTransfer,
-        Carnet,
-        CarnetItems,
-        CarnetLot,
-        PaymentMethod,
-        Pix
-    },
-    merchant: {
-        Merchant,
-        MerchantPaymentDate,
-        MerchantPaymentMethod,
-        MerchantSplit,
-        MerchantSplitTax,
-        MerchantType,
-        Plan,
-        PlanFrequence,
-        TaxType,
-        ListTax
-    },
-    general: {
-        Customer,
-        Address,
-        Product
-    },
-    bank: {
-        Bank,
-        BankData
-    }
-}
+import Address from '../lib/Models/General/Address.js';
+import Customer from '../lib/Models/General/Customer.js';
+import Product from '../lib/Models/General/Product.js';
+
+import Bank from '../lib/Models/Bank/Bank.js';
+import BankData from '../lib/Models/Bank/BankData.js';
+
+export const transference = {
+    Transfer,
+    TransferRegister
+};
+
+export const transaction = {
+    Splits,
+    Transaction,
+    TransactionStatus
+};
+
+export const subscription = {
+    Subscription
+};
+
+export const singlesale = {
+    SingleSale,
+    SingleSalePayment,
+    SingleSalePaymentMethod,
+    SingleSaleProduct
+};
+
+export const payment = {
+    Bankslip,
+    CreditCard,
+    Bitcoin,
+    DebitCard,
+    DebbitAccount,
+    BankTransfer,
+    Carnet,
+    CarnetItems,
+    CarnetLot,
+    PaymentMethod,
+    Pix
+};
+
+export const merchant = {
+    Merchant,
+    MerchantPaymentDate,
+    MerchantPaymentMethod,
+    MerchantSplit,
+    MerchantSplitTax,
+    MerchantType,
+    Plan,
+    PlanFrequence,
+    TaxType,
+    ListTax
+};
+
+export const general = {
+    Customer,
+    Address,
+    Product
+};
+
+export const bank = {
+    Bank,
+    BankData
+};

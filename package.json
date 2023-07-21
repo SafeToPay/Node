@@ -18,24 +18,25 @@
     "email": "integracao@safe2pay.com.br",
     "homepage": "https://safe2pay.com.br/"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SafeToPay/Node"
   },
   "dependencies": {
-    "chai-subset": "^1.6.0",
     "request": "2.88.0"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "main": "./dist/safe2pay.js",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.2.3"
+    "chai": "^4.3.7",
+    "chai-subset": "^1.6.0",
+    "mocha": "^10.2.0"
   }
 }
