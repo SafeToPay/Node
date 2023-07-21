@@ -1,48 +1,48 @@
-import path from "../lib/Models/";
+const path = "../lib/Models/";
 
-import Transfer from path + 'Transference/Transfer.js';
-import TransferRegister from path + 'Transference/TransferRegister.js';
+import Transfer from '../lib/Models/Transference/Transfer.js';
+import TransferRegister from '../lib/Models/Transference/TransferRegister.js';
 
-import Transaction from path + 'Transaction/Transaction.js';
-import TransactionStatus from path + 'Transaction/TransactionStatus.js';
-import Splits from path + 'Transaction/Splits.js';
+import Transaction from '../lib/Models/Transaction/Transaction.js';
+import TransactionStatus from '../lib/Models/Transaction/TransactionStatus.js';
+import Splits from '../lib/Models/Transaction/Splits.js';
 
-import Subscription from path + 'Subscription/Subscription.js';
+import Subscription from '../lib/Models/Subscription/Subscription.js';
 
-import SingleSale from path + 'SingleSale/SingleSale.js';
-import SingleSalePayment from path + 'SingleSale/SingleSalePayment.js';
-import SingleSalePaymentMethod from path + 'SingleSale/SingleSalePaymentMethod.js';
-import SingleSaleProduct from path + 'SingleSale/SingleSaleProduct.js';
+import SingleSale from '../lib/Models/SingleSale/SingleSale.js';
+import SingleSalePayment from '../lib/Models/SingleSale/SingleSalePayment.js';
+import SingleSalePaymentMethod from '../lib/Models/SingleSale/SingleSalePaymentMethod.js';
+import SingleSaleProduct from '../lib/Models/SingleSale/SingleSaleProduct.js';
 
-import PaymentMethod from path + 'Payment/PaymentMethod.js';
-import DebitCard from path + 'Payment/DebitCard.js';
-import DebbitAccount from path + 'Payment/DebbitAccount.js';
-import CreditCard from path + 'Payment/CreditCard.js';
-import Carnet from path + 'Payment/Carnet.js';
-import CarnetLot from path + 'Payment/CarnetLot.js';
-import CarnetItems from path + 'Payment/CarnetItems.js';
-import Bitcoin from path + 'Payment/Bitcoin.js';
-import Bankslip from path + 'Payment/Bankslip.js';
-import BankTransfer from path + 'Payment/BankTransfer.js';
-import Pix from path + 'Payment/Pix.js';
+import PaymentMethod from '../lib/Models/Payment/PaymentMethod.js';
+import DebitCard from '../lib/Models/Payment/DebitCard.js';
+import DebbitAccount from '../lib/Models/Payment/DebbitAccount.js';
+import CreditCard from '../lib/Models/Payment/CreditCard.js';
+import Carnet from '../lib/Models/Payment/Carnet.js';
+import CarnetLot from '../lib/Models/Payment/CarnetLot.js';
+import CarnetItems from '../lib/Models/Payment/CarnetItems.js';
+import Bitcoin from '../lib/Models/Payment/Bitcoin.js';
+import Bankslip from '../lib/Models/Payment/Bankslip.js';
+import BankTransfer from '../lib/Models/Payment/BankTransfer.js';
+import Pix from '../lib/Models/Payment/Pix.js';
 
-import ListTax from path + 'Merchant/ListTax.js';
-import Merchant from path + 'Merchant/Merchant.js';
-import MerchantPaymentDate from path + 'Merchant/MerchantPaymentDate.js';
-import MerchantPaymentMethod from path + 'Merchant/MerchantPaymentMethod.js';
-import MerchantSplit from path + 'Merchant/MerchantSplit.js';
-import MerchantSplitTax from path + 'Merchant/MerchantSplitTax.js';
-import MerchantType from path + 'Merchant/MerchantType.js';
-import Plan from path + 'Merchant/Plan.js';
-import PlanFrequence from path + 'Merchant/PlanFrequence.js';
-import TaxType from path + 'Merchant/TaxType.js';
+import ListTax from '../lib/Models/Merchant/ListTax.js';
+import Merchant from '../lib/Models/Merchant/Merchant.js';
+import MerchantPaymentDate from '../lib/Models/Merchant/MerchantPaymentDate.js';
+import MerchantPaymentMethod from '../lib/Models/Merchant/MerchantPaymentMethod.js';
+import MerchantSplit from '../lib/Models/Merchant/MerchantSplit.js';
+import MerchantSplitTax from '../lib/Models/Merchant/MerchantSplitTax.js';
+import MerchantType from '../lib/Models/Merchant/MerchantType.js';
+import Plan from '../lib/Models/Merchant/Plan.js';
+import PlanFrequence from '../lib/Models/Merchant/PlanFrequence.js';
+import TaxType from '../lib/Models/Merchant/TaxType.js';
 
-import Address from path + 'General/Address.js';
-import Customer from path + 'General/Customer.js';
-import Product from path + 'General/Product.js';
+import Address from '../lib/Models/General/Address.js';
+import Customer from '../lib/Models/General/Customer.js';
+import Product from '../lib/Models/General/Product.js';
 
-import Bank from path + 'Bank/Bank.js';
-import BankData from path + 'Bank/BankData.js';
+import Bank from '../lib/Models/Bank/Bank.js';
+import BankData from '../lib/Models/Bank/BankData.js';
 
 export const transference = {
     Transfer,
